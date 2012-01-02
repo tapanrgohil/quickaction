@@ -1,6 +1,7 @@
 package net.londatiga.android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
@@ -92,12 +93,17 @@ public class ExampleActivity extends Activity {
 				quickAction.show(v);
 			}
 		});
+		
+		Intent intent = new Intent("th.or.nectec.action.QUERY");
+		intent.addCategory("th.or.nectec.category.ANDROID_VIEWS");
+
+		final QuickAction service = new QuickAction.Builder(this).setServiceIntent(intent).create();
 
 		Button btn2 = (Button) this.findViewById(R.id.btn2);
 		btn2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				quickAction.show(v);
+				service.show(v);
 			}
 		});
 		
