@@ -1,9 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:background="@drawable/action_item_btn"
   android:clickable="true"
   android:focusable="true"
+  android:minHeight="42dp"
   android:orientation="horizontal"
   >
 
@@ -11,17 +13,21 @@
     android:id="@+id/iv_icon"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    tools:layout_height="40dp"
+    tools:layout_width="40dp"
     />
 
   <TextView
     android:id="@+id/tv_title"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:gravity="center_vertical"
-    android:paddingLeft="5dip"
-    android:paddingRight="10dip"
-    android:text="Chart"
-    android:textColor="#fff"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:paddingEnd="10dp"
+    android:paddingStart="5dp"
+    tools:text="Title"
     />
 
 </LinearLayout>         
