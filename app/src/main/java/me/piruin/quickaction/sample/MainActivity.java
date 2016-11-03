@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
     //create QuickAction. Use QuickAction.VERTICAL or QuickAction.HORIZONTAL param to define layout
     //orientation
     final QuickAction quickAction = new QuickAction(this, QuickAction.HORIZONTAL);
-
+    quickAction.setTextColor(Color.WHITE);
     quickAction.setColor(Color.GRAY);
 
     //add action items into QuickAction

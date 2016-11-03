@@ -53,6 +53,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   private int mAnimStyle;
   private int mOrientation;
   private int rootWidth = 0;
+  private int mTextColor = Color.BLACK;
 
   /**
    * Constructor for default vertical layout
@@ -122,8 +123,15 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   }
 
   public void setColorRes(@ColorRes int popupColor) {
-    int color = mContext.getResources().getColor(popupColor);
-    setColor(color);
+    setColor(mContext.getResources().getColor(popupColor));
+  }
+
+  public void setmTextColorRes(@ColorRes int textColorRes) {
+    setTextColor(mContext.getResources().getColor(textColorRes));
+  }
+
+  public void setTextColor(@ColorInt int textColor) {
+    mTextColor = textColor;
   }
 
   /**
@@ -163,6 +171,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
     ImageView img = (ImageView)container.findViewById(R.id.iv_icon);
     TextView text = (TextView)container.findViewById(R.id.tv_title);
+    text.setTextColor(mTextColor);
 
     if(action.getIcon() <= 0){
       img.setVisibility(View.GONE);
