@@ -1,8 +1,12 @@
 package me.piruin.quickaction;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -77,6 +81,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     } else {
       setRootViewId(R.layout.popup_vertical);
     }
+    setColor(Color.WHITE);
 
     mAnimStyle = ANIM_AUTO;
     mChildPos = 0;
@@ -88,7 +93,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    * @param id Layout resource id
    */
   public void setRootViewId(@LayoutRes int id) {
-    mRootView = (ViewGroup)mInflater.inflate(id, null);
+    mRootView = mInflater.inflate(id, null);
     mTrack = (ViewGroup)mRootView.findViewById(R.id.tracks);
 
     mArrowDown = (ImageView)mRootView.findViewById(R.id.arrow_down);
@@ -104,6 +109,21 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 
     setContentView(mRootView);
+  }
+
+  public void setColor(@ColorInt int popupColor) {
+    GradientDrawable drawable = new GradientDrawable();
+    drawable.setColor(popupColor);
+    drawable.setCornerRadius(10);
+    mArrowDown.setImageDrawable(new ArrowDrawable(popupColor, ArrowDrawable.ARROW_DOWN));
+    mArrowUp.setImageDrawable(new ArrowDrawable(popupColor, ArrowDrawable.ARROW_UP));
+
+    mScroller.setBackground(drawable);
+  }
+
+  public void setColorRes(@ColorRes int popupColor) {
+    int color = mContext.getResources().getColor(popupColor);
+    setColor(color);
   }
 
   /**

@@ -1,6 +1,7 @@
 package me.piruin.quickaction.sample;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +36,9 @@ public class MainActivity extends Activity {
 
     //create QuickAction. Use QuickAction.VERTICAL or QuickAction.HORIZONTAL param to define layout
     //orientation
-    final QuickAction quickAction = new QuickAction(this, QuickAction.VERTICAL);
+    final QuickAction quickAction = new QuickAction(this, QuickAction.HORIZONTAL);
+
+    quickAction.setColor(Color.GRAY);
 
     //add action items into QuickAction
     quickAction.addActionItem(nextItem);
