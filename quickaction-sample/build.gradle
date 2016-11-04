@@ -42,5 +42,4 @@ android {
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   compile project(':quickaction')
-  testCompile 'junit:junit:4.12'
 }
