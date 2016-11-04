@@ -88,7 +88,7 @@ public class SampleActivity extends Activity {
     btn3.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         quickAction.show(v);
-        quickAction.setAnimStyle(QuickAction.ANIM_REFLECT);
+        quickAction.setAnimStyle(QuickAction.Animation.ANIM_REFLECT);
       }
     });
   }

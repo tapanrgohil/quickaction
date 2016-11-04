@@ -8,6 +8,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.StyleRes;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,13 +35,10 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  *         Contributors: - Kevin Peck <kevinwpeck@gmail.com>
  */
 public class QuickAction extends PopupWindows implements OnDismissListener {
+
   public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
   public static final int VERTICAL = LinearLayout.VERTICAL;
-  public static final int ANIM_GROW_FROM_LEFT = 1;
-  public static final int ANIM_GROW_FROM_RIGHT = 2;
-  public static final int ANIM_GROW_FROM_CENTER = 3;
-  public static final int ANIM_REFLECT = 4;
-  public static final int ANIM_AUTO = 5;
+
   private View mRootView;
   private ImageView mArrowUp;
   private ImageView mArrowDown;
@@ -53,7 +51,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   private boolean mDidAction;
   private int mChildPos = 0;
   private int mInsertPos;
-  private int mAnimStyle = ANIM_AUTO;
+  private Animation mAnimStyle = Animation.ANIM_AUTO;
   private int mOrientation;
   private int rootWidth = 0;
   private int mTextColor = Color.BLACK;
@@ -154,7 +152,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    *
    * @param mAnimStyle animation style, default is set to ANIM_AUTO
    */
-  public void setAnimStyle(int mAnimStyle) {
+  public void setAnimStyle(Animation mAnimStyle) {
     this.mAnimStyle = mAnimStyle;
   }
 
@@ -332,41 +330,17 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     int screenWidth, int requestedX, boolean onTop)
   {
     int arrowPos = requestedX-mArrowUp.getMeasuredWidth()/2;
-
     switch (mAnimStyle) {
-      case ANIM_GROW_FROM_LEFT:
-        mWindow.setAnimationStyle(
-          (onTop) ? R.style.Animation_PopUpMenu_Left : R.style.Animation_PopDownMenu_Left);
-        break;
-
-      case ANIM_GROW_FROM_RIGHT:
-        mWindow.setAnimationStyle(
-          (onTop) ? R.style.Animation_PopUpMenu_Right : R.style.Animation_PopDownMenu_Right);
-        break;
-
-      case ANIM_GROW_FROM_CENTER:
-        mWindow.setAnimationStyle(
-          (onTop) ? R.style.Animation_PopUpMenu_Center : R.style.Animation_PopDownMenu_Center);
-        break;
-
-      case ANIM_REFLECT:
-        mWindow.setAnimationStyle(
-          (onTop) ? R.style.Animation_PopUpMenu_Reflect : R.style.Animation_PopDownMenu_Reflect);
-        break;
-
       case ANIM_AUTO:
-        if (arrowPos <= screenWidth/4) {
-          mWindow.setAnimationStyle(
-            (onTop) ? R.style.Animation_PopUpMenu_Left : R.style.Animation_PopDownMenu_Left);
-        } else if (arrowPos > screenWidth/4 && arrowPos < 3*(screenWidth/4)) {
-          mWindow.setAnimationStyle(
-            (onTop) ? R.style.Animation_PopUpMenu_Center : R.style.Animation_PopDownMenu_Center);
-        } else {
-          mWindow.setAnimationStyle(
-            (onTop) ? R.style.Animation_PopUpMenu_Right : R.style.Animation_PopDownMenu_Right);
-        }
-
+        if (arrowPos <= screenWidth/4)
+          mWindow.setAnimationStyle(Animation.ANIM_GROW_FROM_LEFT.get(onTop));
+        else if (arrowPos > screenWidth/4 && arrowPos < 3*(screenWidth/4))
+          mWindow.setAnimationStyle(Animation.ANIM_GROW_FROM_CENTER.get(onTop));
+        else
+          mWindow.setAnimationStyle(Animation.ANIM_GROW_FROM_RIGHT.get(onTop));
         break;
+      default:
+        mWindow.setAnimationStyle(mAnimStyle.get(onTop));
     }
   }
 
@@ -418,6 +392,37 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     if (!mDidAction && mDismissListener != null) {
       mDismissListener.onDismiss();
     }
+  }
+
+  public enum Animation {
+    ANIM_GROW_FROM_LEFT {
+      @Override int get(boolean onTop) {
+        return (onTop) ? R.style.Animation_PopUpMenu_Left : R.style.Animation_PopDownMenu_Left;
+      }
+    },
+    ANIM_GROW_FROM_RIGHT {
+      @Override int get(boolean onTop) {
+        return (onTop) ? R.style.Animation_PopUpMenu_Right : R.style.Animation_PopDownMenu_Right;
+      }
+    },
+    ANIM_GROW_FROM_CENTER {
+      @Override int get(boolean onTop) {
+        return (onTop) ? R.style.Animation_PopUpMenu_Center : R.style.Animation_PopDownMenu_Center;
+      }
+    },
+    ANIM_REFLECT {
+      @Override int get(boolean onTop) {
+        return (onTop) ? R.style.Animation_PopUpMenu_Reflect
+                       : R.style.Animation_PopDownMenu_Reflect;
+      }
+    },
+    ANIM_AUTO {
+      @Override int get(boolean onTop) {
+        throw new UnsupportedOperationException("Can't use this");
+      }
+    };
+
+    @StyleRes abstract int get(boolean onTop);
   }
 
   /**
