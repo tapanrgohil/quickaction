@@ -96,8 +96,8 @@ public class QuickIntentAction {
     switch (mIntentType) {
       case SERVICE:
         action.setOnActionItemClickListener(new OnActionItemClickListener() {
-          @Override public void onItemClick(QuickAction source, int pos, int actionId) {
-            ResolveInfo info = lists.get(actionId);
+          @Override public void onItemClick(ActionItem item) {
+            ResolveInfo info = lists.get(item.getActionId());
             String name = info.serviceInfo.name;
             String packageName = info.serviceInfo.packageName;
 
@@ -110,8 +110,8 @@ public class QuickIntentAction {
       case ACTIVITY:
       default:
         action.setOnActionItemClickListener(new OnActionItemClickListener() {
-          @Override public void onItemClick(QuickAction source, int pos, int actionId) {
-            ResolveInfo info = lists.get(actionId);
+          @Override public void onItemClick(ActionItem item) {
+            ResolveInfo info = lists.get(item.getActionId());
             String name = info.activityInfo.name;
             String packageName = info.activityInfo.packageName;
 

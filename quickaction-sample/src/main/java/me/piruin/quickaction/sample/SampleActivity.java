@@ -23,8 +23,6 @@ public class SampleActivity extends Activity {
 
     setContentView(R.layout.activity_sample);
 
-    int arrow_up = me.piruin.quickaction.R.id.arrow_up;
-
     ActionItem nextItem = new ActionItem(ID_DOWN, "Next", R.drawable.menu_down_arrow);
     ActionItem prevItem = new ActionItem(ID_UP, "Prev", R.drawable.menu_up_arrow);
     ActionItem searchItem = new ActionItem(ID_SEARCH, "Find", R.drawable.menu_search);
@@ -52,10 +50,9 @@ public class SampleActivity extends Activity {
 
     //Set listener for action item clicked
     quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
-      @Override public void onItemClick(QuickAction source, int pos, int actionId) {
+      @Override public void onItemClick(ActionItem item) {
         //here we can filter which action item was clicked with pos or actionId parameter
-        ActionItem actionItem = quickAction.getActionItem(pos);
-        String title = actionItem.getTitle();
+        String title = item.getTitle();
         Toast.makeText(SampleActivity.this, title+" selected", Toast.LENGTH_SHORT).show();
       }
     });
@@ -88,7 +85,7 @@ public class SampleActivity extends Activity {
     btn3.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         quickAction.show(v);
-        quickAction.setAnimStyle(QuickAction.Animation.ANIM_REFLECT);
+        quickAction.setAnimStyle(QuickAction.Animation.REFLECT);
       }
     });
   }

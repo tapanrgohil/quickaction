@@ -6,10 +6,6 @@ import android.support.annotation.DrawableRes;
 
 /**
  * Action item, displayed as menu with icon and text.
- *
- * @author Lorensius. W. L. T <lorenz@londatiga.net>
- *
- *         Contributors: - Kevin Peck <kevinwpeck@gmail.com>
  */
 public class ActionItem {
   private Bitmap thumb;
@@ -20,14 +16,17 @@ public class ActionItem {
   private boolean sticky;
 
   /**
-   * Constructor
+   * Create Action Item without Icon
+   *
+   * @param actionId Action id of the item
+   * @param title Text to show for the item
    */
-  public ActionItem() {
-    this(-1, null, 0);
+  public ActionItem(int actionId, String title) {
+    this(actionId, title, -1);
   }
 
   /**
-   * Constructor
+   * Create Action Item with all attribute
    *
    * @param actionId Action id for case statements
    * @param title Title
@@ -40,17 +39,7 @@ public class ActionItem {
   }
 
   /**
-   * Constructor
-   *
-   * @param actionId Action id of the item
-   * @param title Text to show for the item
-   */
-  public ActionItem(int actionId, String title) {
-    this(actionId, title, -1);
-  }
-
-  /**
-   * Constructor
+   * Create Action Item  with only Icon
    *
    * @param icon {@link Drawable} action icon
    */
@@ -59,7 +48,7 @@ public class ActionItem {
   }
 
   /**
-   * Constructor
+   * Create Action Item with only Icon
    *
    * @param actionId Action ID of item
    * @param icon {@link Drawable} action icon

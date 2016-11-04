@@ -23,13 +23,13 @@
 
   </ScrollView>
 
-  <ImageView
+  <View
     android:id="@+id/arrow_up"
     android:layout_width="@dimen/arrow_width"
     android:layout_height="@dimen/arrow_height"
     />
 
-  <ImageView
+  <View
     android:id="@+id/arrow_down"
     android:layout_width="@dimen/arrow_width"
     android:layout_height="@dimen/arrow_height"
