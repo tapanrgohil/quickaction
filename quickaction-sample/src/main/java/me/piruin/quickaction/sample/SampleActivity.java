@@ -23,6 +23,8 @@ public class SampleActivity extends Activity {
 
     setContentView(R.layout.activity_sample);
 
+    int arrow_up = me.piruin.quickaction.R.id.arrow_up;
+
     ActionItem nextItem = new ActionItem(ID_DOWN, "Next", R.drawable.menu_down_arrow);
     ActionItem prevItem = new ActionItem(ID_UP, "Prev", R.drawable.menu_up_arrow);
     ActionItem searchItem = new ActionItem(ID_SEARCH, "Find", R.drawable.menu_search);

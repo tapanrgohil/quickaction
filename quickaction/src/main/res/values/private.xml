@@ -1,50 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <dimen name="icon_size">42dp</dimen>
+  <dimen name="arrow_width">30dp</dimen>
+  <dimen name="arrow_height">20dp</dimen>
+  <dimen name="popup_corner">4dp</dimen>
+  <dimen name="separator_width">1dp</dimen>
 
-  <style name="Animations" />
+  <style name="Animation" />
 
   <!-- PopDownMenu -->
-  <style name="Animations.PopDownMenu" />
+  <style name="Animation.PopDownMenu" />
 
-  <style name="Animations.PopDownMenu.Center">
+  <style name="Animation.PopDownMenu.Center">
     <item name="@android:windowEnterAnimation">@anim/grow_from_top</item>
     <item name="@android:windowExitAnimation">@anim/shrink_from_bottom</item>
   </style>
 
-  <style name="Animations.PopDownMenu.Left">
+  <style name="Animation.PopDownMenu.Left">
     <item name="@android:windowEnterAnimation">@anim/grow_from_topleft_to_bottomright</item>
     <item name="@android:windowExitAnimation">@anim/shrink_from_bottomright_to_topleft</item>
   </style>
 
-  <style name="Animations.PopDownMenu.Right">
+  <style name="Animation.PopDownMenu.Right">
     <item name="@android:windowEnterAnimation">@anim/grow_from_topright_to_bottomleft</item>
     <item name="@android:windowExitAnimation">@anim/shrink_from_bottomleft_to_topright</item>
   </style>
 
-  <style name="Animations.PopDownMenu.Reflect">
+  <style name="Animation.PopDownMenu.Reflect">
     <item name="@android:windowEnterAnimation">@anim/pump_top</item>
     <item name="@android:windowExitAnimation">@anim/disappear</item>
   </style>
 
   <!-- PopUpMenu -->
-  <style name="Animations.PopUpMenu" />
+  <style name="Animation.PopUpMenu" />
 
-  <style name="Animations.PopUpMenu.Center">
+  <style name="Animation.PopUpMenu.Center">
     <item name="@android:windowEnterAnimation">@anim/grow_from_bottom</item>
     <item name="@android:windowExitAnimation">@anim/shrink_from_top</item>
   </style>
 
-  <style name="Animations.PopUpMenu.Left">
+  <style name="Animation.PopUpMenu.Left">
     <item name="@android:windowEnterAnimation">@anim/grow_from_bottomleft_to_topright</item>
     <item name="@android:windowExitAnimation">@anim/shrink_from_topright_to_bottomleft</item>
   </style>
 
-  <style name="Animations.PopUpMenu.Right">
+  <style name="Animation.PopUpMenu.Right">
     <item name="@android:windowEnterAnimation">@anim/grow_from_bottomright_to_topleft</item>
     <item name="@android:windowExitAnimation">@anim/shrink_from_topleft_to_bottomright</item>
   </style>
 
-  <style name="Animations.PopUpMenu.Reflect">
+  <style name="Animation.PopUpMenu.Reflect">
     <item name="@android:windowEnterAnimation">@anim/pump_bottom</item>
     <item name="@android:windowExitAnimation">@anim/disappear</item>
   </style>

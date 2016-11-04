@@ -15,12 +15,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow.OnDismissListener;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * QuickAction dialog, shows action list as icon and text like the one in Gallery3D app. Currently
@@ -31,8 +34,8 @@ import java.util.List;
  *         Contributors: - Kevin Peck <kevinwpeck@gmail.com>
  */
 public class QuickAction extends PopupWindows implements OnDismissListener {
-  public static final int HORIZONTAL = 0;
-  public static final int VERTICAL = 1;
+  public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
+  public static final int VERTICAL = LinearLayout.VERTICAL;
   public static final int ANIM_GROW_FROM_LEFT = 1;
   public static final int ANIM_GROW_FROM_RIGHT = 2;
   public static final int ANIM_GROW_FROM_CENTER = 3;
@@ -42,15 +45,15 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   private ImageView mArrowUp;
   private ImageView mArrowDown;
   private LayoutInflater mInflater;
-  private ViewGroup mTrack;
+  private LinearLayout mTrack;
   private ScrollView mScroller;
   private OnActionItemClickListener mItemClickListener;
   private OnDismissListener mDismissListener;
   private List<ActionItem> actionItems = new ArrayList<ActionItem>();
   private boolean mDidAction;
-  private int mChildPos;
+  private int mChildPos = 0;
   private int mInsertPos;
-  private int mAnimStyle;
+  private int mAnimStyle = ANIM_AUTO;
   private int mOrientation;
   private int rootWidth = 0;
   private int mTextColor = Color.BLACK;
@@ -72,20 +75,11 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    */
   public QuickAction(Context context, int orientation) {
     super(context);
-
     mOrientation = orientation;
-
     mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-    if (mOrientation == HORIZONTAL) {
-      setRootViewId(R.layout.popup_horizontal);
-    } else {
-      setRootViewId(R.layout.popup_vertical);
-    }
+    setRootViewId(R.layout.popup);
     setColor(Color.WHITE);
-
-    mAnimStyle = ANIM_AUTO;
-    mChildPos = 0;
   }
 
   /**
@@ -95,7 +89,8 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    */
   public void setRootViewId(@LayoutRes int id) {
     mRootView = mInflater.inflate(id, null);
-    mTrack = (ViewGroup)mRootView.findViewById(R.id.tracks);
+    mTrack = (LinearLayout)mRootView.findViewById(R.id.tracks);
+    mTrack.setOrientation(mOrientation);
 
     mArrowDown = (ImageView)mRootView.findViewById(R.id.arrow_down);
     mArrowUp = (ImageView)mRootView.findViewById(R.id.arrow_up);
@@ -106,30 +101,50 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     // force close that occured
     // when tapping fastly on a view to show quickaction dialog.
     // Thanx to zammbi (github.com/zammbi)
-    mRootView.setLayoutParams(
-      new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    mRootView.setLayoutParams(new LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
 
     setContentView(mRootView);
   }
 
+  /**
+   * Set color of popup
+   *
+   * @param popupColor Color to fill popup
+   */
   public void setColor(@ColorInt int popupColor) {
     GradientDrawable drawable = new GradientDrawable();
     drawable.setColor(popupColor);
-    drawable.setCornerRadius(10);
+    drawable.setCornerRadius(mContext.getResources().getDimension(R.dimen.popup_corner));
     mArrowDown.setImageDrawable(new ArrowDrawable(popupColor, ArrowDrawable.ARROW_DOWN));
     mArrowUp.setImageDrawable(new ArrowDrawable(popupColor, ArrowDrawable.ARROW_UP));
-
     mScroller.setBackground(drawable);
   }
 
+  /**
+   * Set color of popup
+   *
+   * @param popupColor Color resource id to fill popup
+   */
   public void setColorRes(@ColorRes int popupColor) {
     setColor(mContext.getResources().getColor(popupColor));
   }
 
-  public void setmTextColorRes(@ColorRes int textColorRes) {
+  /**
+   * Set color for text of each action item. MUST call this before add action item, sorry I'm just
+   * lazy.
+   *
+   * @param textColorRes Color resource id to use
+   */
+  public void setTextColorRes(@ColorRes int textColorRes) {
     setTextColor(mContext.getResources().getColor(textColorRes));
   }
 
+  /**
+   * Set color for text of each action item. MUST call this before add action item, sorry I'm just
+   * lazy.
+   *
+   * @param textColor Color to use
+   */
   public void setTextColor(@ColorInt int textColor) {
     mTextColor = textColor;
   }
@@ -163,19 +178,18 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     String title = action.getTitle();
     View container;
 
-    if (mOrientation == HORIZONTAL) {
+    if (mOrientation == HORIZONTAL)
       container = mInflater.inflate(R.layout.action_item_horizontal, null);
-    } else {
+    else
       container = mInflater.inflate(R.layout.action_item_vertical, null);
-    }
 
     ImageView img = (ImageView)container.findViewById(R.id.iv_icon);
     TextView text = (TextView)container.findViewById(R.id.tv_title);
     text.setTextColor(mTextColor);
 
-    if(action.getIcon() <= 0){
+    if (action.getIcon() <= 0) {
       img.setVisibility(View.GONE);
-    }else {
+    } else {
       Drawable icon = mContext.getResources().getDrawable(action.getIcon());
       img.setImageDrawable(icon);
     }
@@ -202,26 +216,16 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
         }
       }
     });
-
     container.setFocusable(true);
     container.setClickable(true);
 
     if (mOrientation == HORIZONTAL && mChildPos != 0) {
-      View separator = mInflater.inflate(R.layout.horiz_separator, null);
-
-      RelativeLayout.LayoutParams params =
-        new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT);
-
-      separator.setLayoutParams(params);
-      separator.setPadding(5, 0, 5, 0);
-
-      mTrack.addView(separator, mInsertPos);
-
-      mInsertPos++;
+      View separator = new View(mContext);
+      separator.setBackgroundColor(Color.argb(32, 0, 0, 0));
+      int width = mContext.getResources().getDimensionPixelOffset(R.dimen.separator_width);
+      mTrack.addView(separator, mInsertPos++, new LayoutParams(width, MATCH_PARENT));
     }
-
     mTrack.addView(container, mInsertPos);
-
     mChildPos++;
     mInsertPos++;
   }
@@ -259,7 +263,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       // LayoutParams(LayoutParams.WRAP_CONTENT,
       // LayoutParams.WRAP_CONTENT));
 
-      mRootView.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+      mRootView.measure(WRAP_CONTENT, WRAP_CONTENT);
 
       int rootHeight = mRootView.getMeasuredHeight();
 
@@ -332,34 +336,34 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     switch (mAnimStyle) {
       case ANIM_GROW_FROM_LEFT:
         mWindow.setAnimationStyle(
-          (onTop) ? R.style.Animations_PopUpMenu_Left : R.style.Animations_PopDownMenu_Left);
+          (onTop) ? R.style.Animation_PopUpMenu_Left : R.style.Animation_PopDownMenu_Left);
         break;
 
       case ANIM_GROW_FROM_RIGHT:
         mWindow.setAnimationStyle(
-          (onTop) ? R.style.Animations_PopUpMenu_Right : R.style.Animations_PopDownMenu_Right);
+          (onTop) ? R.style.Animation_PopUpMenu_Right : R.style.Animation_PopDownMenu_Right);
         break;
 
       case ANIM_GROW_FROM_CENTER:
         mWindow.setAnimationStyle(
-          (onTop) ? R.style.Animations_PopUpMenu_Center : R.style.Animations_PopDownMenu_Center);
+          (onTop) ? R.style.Animation_PopUpMenu_Center : R.style.Animation_PopDownMenu_Center);
         break;
 
       case ANIM_REFLECT:
         mWindow.setAnimationStyle(
-          (onTop) ? R.style.Animations_PopUpMenu_Reflect : R.style.Animations_PopDownMenu_Reflect);
+          (onTop) ? R.style.Animation_PopUpMenu_Reflect : R.style.Animation_PopDownMenu_Reflect);
         break;
 
       case ANIM_AUTO:
         if (arrowPos <= screenWidth/4) {
           mWindow.setAnimationStyle(
-            (onTop) ? R.style.Animations_PopUpMenu_Left : R.style.Animations_PopDownMenu_Left);
+            (onTop) ? R.style.Animation_PopUpMenu_Left : R.style.Animation_PopDownMenu_Left);
         } else if (arrowPos > screenWidth/4 && arrowPos < 3*(screenWidth/4)) {
           mWindow.setAnimationStyle(
-            (onTop) ? R.style.Animations_PopUpMenu_Center : R.style.Animations_PopDownMenu_Center);
+            (onTop) ? R.style.Animation_PopUpMenu_Center : R.style.Animation_PopDownMenu_Center);
         } else {
           mWindow.setAnimationStyle(
-            (onTop) ? R.style.Animations_PopUpMenu_Right : R.style.Animations_PopDownMenu_Right);
+            (onTop) ? R.style.Animation_PopUpMenu_Right : R.style.Animation_PopDownMenu_Right);
         }
 
         break;
