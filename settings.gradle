@@ -1,1 +1,1 @@
-include ':app', ':quickaction'
+include ':quickaction', ':quickaction-sample'
