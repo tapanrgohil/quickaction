@@ -9,7 +9,7 @@ import android.widget.Toast;
 import me.piruin.quickaction.ActionItem;
 import me.piruin.quickaction.QuickAction;
 
-public class MainActivity extends Activity {
+public class SampleActivity extends Activity {
 
   private static final int ID_UP = 1;
   private static final int ID_DOWN = 2;
@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_sample);
 
     ActionItem nextItem = new ActionItem(ID_DOWN, "Next", R.drawable.menu_down_arrow);
     ActionItem prevItem = new ActionItem(ID_UP, "Prev", R.drawable.menu_up_arrow);
@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
         //here we can filter which action item was clicked with pos or actionId parameter
         ActionItem actionItem = quickAction.getActionItem(pos);
         String title = actionItem.getTitle();
-        Toast.makeText(MainActivity.this, title+" selected", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SampleActivity.this, title+" selected", Toast.LENGTH_SHORT).show();
       }
     });
 
@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
     //by clicking the area outside the dialog.
     quickAction.setOnDismissListener(new QuickAction.OnDismissListener() {
       @Override public void onDismiss() {
-        Toast.makeText(MainActivity.this, "Dismissed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SampleActivity.this, "Dismissed", Toast.LENGTH_SHORT).show();
       }
     });
 
