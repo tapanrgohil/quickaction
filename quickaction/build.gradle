@@ -49,17 +49,6 @@ dependencies {
   compile 'com.android.support:support-annotations:25.0.0'
 }
 
-task echo() {
-  println "$project.group:$project.name:$project.version"
-  println Calendar.instance.get(Calendar.YEAR)
-  println project.description
-  println project.bintrayUser
-  println 'https://github.com/' + project.githubRepo
-  println 'https://github.com/' + project.githubRepo + '/issues'
-  println 'https://github.com/' + project.githubRepo + '.git'
-  if (project.hasProperty('bintrayOrg')) println project.getProperty('bintrayOrg')
-}
-
 install {
   repositories.mavenInstaller {
     pom.project {
