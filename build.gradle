@@ -1,5 +1,6 @@
 group = "me.piruin"
-version = "2.0"
+version = "2.0-Snapshot"
+description = 'Android Library for easy create Tooltips with some action or just as decoration.'
 
 buildscript {
   repositories {
@@ -22,5 +23,7 @@ ext {
   ANDROID_MIN_SDK = 19
   ANDROID_TARGET_SDK = 25
   ANDROID_BUILD_TOOLS = "25.0.0"
+
+  githubRepo = 'piruin/QuickAction'
 }
 
