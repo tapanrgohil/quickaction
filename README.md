@@ -1,120 +1,81 @@
-NewQuickAction3D
-================
+# Quick Action [![Build Status](https://travis-ci.org/piruin/QuickAction.svg?branch=master)](https://travis-ci.org/piruin/QuickAction)
 
-NewQuickAction3D is a small android library to create QuickAction dialog with Gallery3D app style.
+Quick Action is a small android library folk from [NewQuickAction3D](https://github.com/lorensiuswlt/NewQuickAction3D)
+by [Lorensius W. L. T ](http://www.londatiga.net/)
 
-How to Use
-==========
-This repo includes a sample Activity (__ExampleActivity.java__) to show how to use QuickAction.
+Because QuickAction3D is design of Android 2.x. So, I change it's style to fit with Material Design
+but still compatible with old java source code interface, Refactor, Transform to Gradle project
+and publish to JCenter.
 
-	public class ExampleActivity extends Activity {
-		//action id
-		private static final int ID_UP     = 1;
-		private static final int ID_DOWN   = 2;
-		private static final int ID_SEARCH = 3;
-		private static final int ID_INFO   = 4;
-		private static final int ID_ERASE  = 5;	
-		private static final int ID_OK     = 6;
-	    
-		@Override
-		public void onCreate(Bundle savedInstanceState) {
-			super.onCreate(savedInstanceState);
+## Download
 
-			setContentView(R.layout.main);
+NOTE! This project publish only on **JCenter** not on **Maven Central**.
 
-			ActionItem nextItem 	= new ActionItem(ID_DOWN, "Next", getResources().getDrawable(R.drawable.menu_down_arrow));
-			ActionItem prevItem 	= new ActionItem(ID_UP, "Prev", getResources().getDrawable(R.drawable.menu_up_arrow));
-        	ActionItem searchItem 	= new ActionItem(ID_SEARCH, "Find", getResources().getDrawable(R.drawable.menu_search));
-        	ActionItem infoItem 	= new ActionItem(ID_INFO, "Info", getResources().getDrawable(R.drawable.menu_info));
-        	ActionItem eraseItem 	= new ActionItem(ID_ERASE, "Clear", getResources().getDrawable(R.drawable.menu_eraser));
-        	ActionItem okItem 		= new ActionItem(ID_OK, "OK", getResources().getDrawable(R.drawable.menu_ok));
-        
-        	//use setSticky(true) to disable QuickAction dialog being dismissed after an item is clicked
-        	prevItem.setSticky(true);
-        	nextItem.setSticky(true);
-		
-			//create QuickAction. Use QuickAction.VERTICAL or QuickAction.HORIZONTAL param to define layout 
-        	//orientation
-			final QuickAction quickAction = new QuickAction(this, QuickAction.VERTICAL);
-		
-			//add action items into QuickAction
-        	quickAction.addActionItem(nextItem);
-			quickAction.addActionItem(prevItem);
-        	quickAction.addActionItem(searchItem);
-        	quickAction.addActionItem(infoItem);
-        	quickAction.addActionItem(eraseItem);
-        	quickAction.addActionItem(okItem);
-        
-        	//Set listener for action item clicked
-			quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {			
-				@Override
-				public void onItemClick(QuickAction source, int pos, int actionId) {
-					//here we can filter which action item was clicked with pos or actionId parameter
-					ActionItem actionItem = quickAction.getActionItem(pos);
-                 
-					Toast.makeText(getApplicationContext(), actionItem.getTitle() + " selected", Toast.LENGTH_SHORT).show();			    
-				}
-			});
-		
-			//set listnener for on dismiss event, this listener will be called only if QuickAction dialog was dismissed
-			//by clicking the area outside the dialog.
-			quickAction.setOnDismissListener(new QuickAction.OnDismissListener() {			
-				@Override
-				public void onDismiss() {
-					Toast.makeText(getApplicationContext(), "Dismissed", Toast.LENGTH_SHORT).show();
-				}
-			});
-		
-			//show on btn1
-			Button btn1 = (Button) this.findViewById(R.id.btn1);
-			btn1.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					quickAction.show(v);
-				}
-			});
+```groovy
+repositories {
+    jcenter()
+}
+```
 
-			Button btn2 = (Button) this.findViewById(R.id.btn2);
-			btn2.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					quickAction.show(v);
-				}
-			});
-		
-			Button btn3 = (Button) this.findViewById(R.id.btn3);
-			btn3.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					quickAction.show(v);
-					quickAction.setAnimStyle(QuickAction.ANIM_REFLECT);
-				}
-			});
-		}
-	}
+Add dependencies on app module
 
-**See http://www.londatiga.net/it/how-to-create-quickaction-dialog-in-android/ for more information.**
+```groovy
+dependencies {
+    ...
+    compile 'me.piruin:quickaction:2.0'
+    ...
+}
+```
 
-![Example Image](http://londatiga.net/images/quickaction3d_horizontal.png)  ![Example Image](http://londatiga.net/images/quickaction3d_vertical.png) 
+## How to Use
 
-Developed By
-============
+QuickAction use same old NewQuickAction3D interface. So, [SampleActivity](https://github.com/piruin/QuickAction/blob/master/quickaction-sample/src/main/java/me/piruin/quickaction/sample/SampleActivity.java)
+made by Lorensius W. L. T still work and cover main part of it.
+You get more information at his blog [http://www.londatiga.net/it/how-to-create-quickaction-dialog-in-android/](http://www.londatiga.net/it/how-to-create-quickaction-dialog-in-android/)
 
-* Lorensius W. L. T - <lorenz@londatiga.net>
+## New Feature
 
-Contributors
-============
+My QuickAction have some additional feature more than original
 
-* Kevin Peck - <kevinwpeck@gmail.com>
+### Set Popup's Color & Text Color
 
-Changes
-=======
+```
+  quickAction.setColor(R.color.pink) //set by Color Resource
+  quickAction.setTextColor(Color.WHITE) // or by Color class
+```
+
+NOTE! setTextColor apply only ActionItem that added afterward.
+
+### Quick Intent Action
+
+To lazy create list of Activity or Service that match with your Intent
+
+```
+  Intent intent = new Intent(Action.VIEW) // intent your want to start
+  QuickAction quickIntent = new QuickIntentAction(this)
+    .setActivityIntent(intent)
+    .create();
+```
+
+## Developer By
+
+- [Piruin Panichphol](https://piruin.me)
+
+- [Lorensius W. L. T](http://www.londatiga.net/) - Original Developer
+
+## Contributors
+- Kevin Peck - <kevinwpeck@gmail.com>
+
+## Changes
+
 
 See [CHANGELOG](https://github.com/lorensiuswlt/NewQuickAction3D/blob/master/CHANGELOG.md) for details
 
-License
-=======
+## License
 
+This project under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) license
+
+    Copyright 2016 Piruin Panichphol
     Copyright 2011 Lorensius W. L. T
 
     Licensed under the Apache License, Version 2.0 (the "License");
