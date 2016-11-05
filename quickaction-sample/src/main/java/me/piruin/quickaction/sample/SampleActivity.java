@@ -1,15 +1,16 @@
 package me.piruin.quickaction.sample;
 
-import android.app.Activity;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import me.piruin.quickaction.ActionItem;
 import me.piruin.quickaction.QuickAction;
+import me.piruin.quickaction.QuickIntentAction;
 
-public class SampleActivity extends Activity {
+public class SampleActivity extends AppCompatActivity {
 
   private static final int ID_UP = 1;
   private static final int ID_DOWN = 2;
@@ -23,12 +24,12 @@ public class SampleActivity extends Activity {
 
     setContentView(R.layout.activity_sample);
 
-    ActionItem nextItem = new ActionItem(ID_DOWN, "Next", R.drawable.menu_down_arrow);
-    ActionItem prevItem = new ActionItem(ID_UP, "Prev", R.drawable.menu_up_arrow);
-    ActionItem searchItem = new ActionItem(ID_SEARCH, "Find", R.drawable.menu_search);
-    ActionItem infoItem = new ActionItem(ID_INFO, "Info", R.drawable.menu_info);
-    ActionItem eraseItem = new ActionItem(ID_ERASE, "Clear", R.drawable.menu_eraser);
-    ActionItem okItem = new ActionItem(ID_OK, "OK", R.drawable.menu_ok);
+    ActionItem nextItem = new ActionItem(ID_DOWN, "Next", R.drawable.ic_arrow_downward);
+    ActionItem prevItem = new ActionItem(ID_UP, "Prev", R.drawable.ic_arrow_upward);
+    ActionItem searchItem = new ActionItem(ID_SEARCH, "Find", R.drawable.ic_search);
+    ActionItem infoItem = new ActionItem(ID_INFO, "Info", R.drawable.ic_info);
+    ActionItem eraseItem = new ActionItem(ID_ERASE, "Clear", R.drawable.ic_clear);
+    ActionItem okItem = new ActionItem(ID_OK, "OK", R.drawable.ic_ok);
 
     //use setSticky(true) to disable QuickAction dialog being dismissed after an item is clicked
     prevItem.setSticky(true);
@@ -36,9 +37,9 @@ public class SampleActivity extends Activity {
 
     //create QuickAction. Use QuickAction.VERTICAL or QuickAction.HORIZONTAL param to define layout
     //orientation
-    final QuickAction quickAction = new QuickAction(this, QuickAction.HORIZONTAL);
-    quickAction.setTextColor(Color.WHITE);
-    quickAction.setColor(Color.GRAY);
+    final QuickAction quickAction = new QuickAction(this, QuickAction.VERTICAL);
+    quickAction.setColorRes(R.color.pink);
+    quickAction.setTextColorRes(R.color.white);
 
     //add action items into QuickAction
     quickAction.addActionItem(nextItem);
@@ -81,11 +82,23 @@ public class SampleActivity extends Activity {
       }
     });
 
+    //Quick and Easy intent selector in tooltip styles
+    Intent sendIntent = new Intent();
+    sendIntent.setAction(Intent.ACTION_SEND);
+    sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+    sendIntent.setType("text/plain");
+
+    final QuickAction quickIntent = new QuickIntentAction(this)
+      .setActivityIntent(sendIntent)
+      .setOrientation(QuickAction.VERTICAL)
+      .create();
+    quickIntent.setColorRes(R.color.teal);
+    quickIntent.setAnimStyle(QuickAction.Animation.REFLECT);
+
     Button btn3 = (Button)this.findViewById(R.id.button3);
     btn3.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        quickAction.show(v);
-        quickAction.setAnimStyle(QuickAction.Animation.REFLECT);
+        quickIntent.show(v);
       }
     });
   }

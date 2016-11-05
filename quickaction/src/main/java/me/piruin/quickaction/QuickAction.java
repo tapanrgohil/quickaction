@@ -110,6 +110,8 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     GradientDrawable drawable = new GradientDrawable();
     drawable.setColor(popupColor);
     drawable.setCornerRadius(mResource.getDimension(R.dimen.popup_corner));
+    //drawable.setStroke(mResource.getDimensionPixelOffset(R.dimen.separator_width),
+    //                   mResource.getColor(R.color.stroke_color));
     mArrowDown.setBackground(new ArrowDrawable(popupColor, ArrowDrawable.ARROW_DOWN));
     mArrowUp.setBackground(new ArrowDrawable(popupColor, ArrowDrawable.ARROW_UP));
     mScroller.setBackground(drawable);
@@ -182,18 +184,17 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     TextView text = (TextView)container.findViewById(R.id.tv_title);
     text.setTextColor(mTextColor);
 
-    if (action.getIcon() <= 0) {
-      img.setVisibility(View.GONE);
-    } else {
-      Drawable icon = mResource.getDrawable(action.getIcon());
+    if (action.haveIcon()) {
+      Drawable icon = action.getIconDrawable(getContext());
       img.setImageDrawable(icon);
+    } else {
+      img.setVisibility(View.GONE);
     }
 
-    if (title != null) {
+    if (title != null)
       text.setText(title);
-    } else {
+    else
       text.setVisibility(View.GONE);
-    }
 
     final int pos = mChildPos;
     final int actionId = action.getActionId();
@@ -366,7 +367,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
     param.leftMargin = requestedX-arrowWidth/2;
 
-    hideArrow.setVisibility(View.INVISIBLE);
+    hideArrow.setVisibility(View.GONE);
   }
 
   /**

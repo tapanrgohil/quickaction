@@ -1,11 +1,16 @@
 # Quick Action [![Build Status](https://travis-ci.org/piruin/QuickAction.svg?branch=master)](https://travis-ci.org/piruin/QuickAction)
 
-Quick Action is a small android library folk from [NewQuickAction3D](https://github.com/lorensiuswlt/NewQuickAction3D)
-by [Lorensius W. L. T ](http://www.londatiga.net/)
+Quick Action is a small android library for easy create Tooltips with some action or
+just as decoration. folk from [NewQuickAction3D](https://github.com/lorensiuswlt/NewQuickAction3D)
+by [Lorensius W. L. T ](http://www.londatiga.net/).
 
-Because QuickAction3D is design of Android 2.x. So, I change it's style to fit with Material Design
+> Not just a Tooltips, A Tooltips with Action!.
+
+Because *NewQuickAction3D* is design of Android 2.x. So, I change it's style to fit with Material Design
 but still compatible with old java source code interface, Refactor, Transform to Gradle project
 and publish to JCenter.
+
+![Quick Action demo][demo]
 
 ## Download
 
@@ -31,7 +36,7 @@ dependencies {
 
 QuickAction use same old NewQuickAction3D interface. So, [SampleActivity](https://github.com/piruin/QuickAction/blob/master/quickaction-sample/src/main/java/me/piruin/quickaction/sample/SampleActivity.java)
 made by Lorensius W. L. T still work and cover main part of it.
-You get more information at his blog [http://www.londatiga.net/it/how-to-create-quickaction-dialog-in-android/](http://www.londatiga.net/it/how-to-create-quickaction-dialog-in-android/)
+You get more information at his blog http://www.londatiga.net/it/how-to-create-quickaction-dialog-in-android/
 
 ## New Feature
 
@@ -39,9 +44,14 @@ My QuickAction have some additional feature more than original
 
 ### Set Popup's Color & Text Color
 
-```
-  quickAction.setColor(R.color.pink) //set by Color Resource
-  quickAction.setTextColor(Color.WHITE) // or by Color class
+```java
+  //Popup color
+  quickAction.setColorRes(R.color.pink) //set by Color Resource
+  quickAction.setColor(Color.WHITE) // or by Color class
+
+  //Text color
+  quickAction.setTextColorRes(R.color.red)
+  quickAction.setTextColor(Color.Black)
 ```
 
 NOTE! setTextColor apply only ActionItem that added afterward.
@@ -50,7 +60,7 @@ NOTE! setTextColor apply only ActionItem that added afterward.
 
 To lazy create list of Activity or Service that match with your Intent
 
-```
+```java
   Intent intent = new Intent(Action.VIEW) // intent your want to start
   QuickAction quickIntent = new QuickIntentAction(this)
     .setActivityIntent(intent)
@@ -89,3 +99,6 @@ This project under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) lice
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+
+[demo]: https://github.com/piruin/QuickAction/blob/master/asset/demo.gif "Demo gif"

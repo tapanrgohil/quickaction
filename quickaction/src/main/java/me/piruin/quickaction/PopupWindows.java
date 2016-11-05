@@ -3,6 +3,7 @@ package me.piruin.quickaction;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -40,6 +41,10 @@ class PopupWindows {
       mWindow.setBackgroundDrawable(new BitmapDrawable());
     else
       mWindow.setBackgroundDrawable(mBackground);
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      mWindow.setElevation(10);
+    }
 
     mWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
     mWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);

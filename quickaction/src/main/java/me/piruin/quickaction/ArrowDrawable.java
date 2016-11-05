@@ -9,6 +9,7 @@ final class ArrowDrawable extends ColorDrawable {
   static final int ARROW_DOWN = 2;
 
   private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+  private final Paint mStrokePaint;
   private final int mBackgroundColor;
   private final int mGravity;
 
@@ -19,11 +20,17 @@ final class ArrowDrawable extends ColorDrawable {
     mBackgroundColor = Color.TRANSPARENT;
 
     mPaint.setColor(foregroundColor);
+
+    mStrokePaint = new Paint(mPaint);
+    mStrokePaint.setStyle(Paint.Style.STROKE);
+    mStrokePaint.setStrokeWidth(2);
+    mStrokePaint.setARGB(50, 0, 0, 0);
   }
 
   @Override protected void onBoundsChange(Rect bounds) {
     super.onBoundsChange(bounds);
     updatePath(bounds);
+
   }
 
   private synchronized void updatePath(Rect bounds) {
@@ -51,6 +58,7 @@ final class ArrowDrawable extends ColorDrawable {
       updatePath(getBounds());
     }
     canvas.drawPath(mPath, mPaint);
+    //canvas.drawPath(mPath, mStrokePaint);
   }
 
   public void setColor(@ColorInt int color) {

@@ -48,7 +48,7 @@ public class QuickIntentAction {
   }
 
   public QuickAction create() {
-    QuickAction action = new QuickAction(mContext, mOrientation);
+    QuickAction quickAction = new QuickAction(mContext, mOrientation);
 
     // Add List of Support Activity or Services
     if (mIntent != null) {
@@ -69,18 +69,18 @@ public class QuickIntentAction {
       if (lists.size() > 0) {
         int index = 0;
         for (ResolveInfo info : lists) {
-          ActionItem item =
-            new ActionItem(index++, (String)info.loadLabel(pm), info.getIconResource());
-          action.addActionItem(item);
+          ActionItem item = new ActionItem(index++, (String)info.loadLabel(pm));
+          item.setIconDrawable(info.loadIcon(pm));
+          quickAction.addActionItem(item);
         }
-        addOnActionItemClick(action, lists);
+        addOnActionItemClick(quickAction, lists);
       } else {
         ActionItem item = new ActionItem(0, "Not found support any"+mType[mIntentType]+"!");
-        action.addActionItem(item);
+        quickAction.addActionItem(item);
       }
     }
 
-    return action;
+    return quickAction;
   }
 
   private void addOnActionItemClick(QuickAction action, final List<ResolveInfo> lists) {

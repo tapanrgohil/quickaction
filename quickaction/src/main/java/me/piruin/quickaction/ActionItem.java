@@ -1,5 +1,6 @@
 package me.piruin.quickaction;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
@@ -11,6 +12,7 @@ public class ActionItem {
   private Bitmap thumb;
   private String title;
   private int icon = -1;
+  private Drawable iconDrawable;
   private int actionId = -1;
   private boolean selected;
   private boolean sticky;
@@ -32,7 +34,7 @@ public class ActionItem {
    * @param title Title
    * @param icon Icon to use
    */
-  public ActionItem(int actionId, String title, @DrawableRes int icon){
+  public ActionItem(int actionId, String title, @DrawableRes int icon) {
     this.actionId = actionId;
     this.title = title;
     this.icon = icon;
@@ -89,9 +91,12 @@ public class ActionItem {
    *
    * @return {@link Drawable} action icon
    */
-  @DrawableRes
-  public int getIcon() {
+  @DrawableRes public int getIcon() {
     return this.icon;
+  }
+
+  public boolean haveIcon() {
+    return icon > 0 || iconDrawable != null;
   }
 
   /**
@@ -160,5 +165,15 @@ public class ActionItem {
    */
   public Bitmap getThumb() {
     return this.thumb;
+  }
+
+  public Drawable getIconDrawable(Context context) {
+    if (iconDrawable == null)
+      iconDrawable = context.getResources().getDrawable(icon);
+    return iconDrawable;
+  }
+
+  public void setIconDrawable(Drawable iconDrawable) {
+    this.iconDrawable = iconDrawable;
   }
 }
