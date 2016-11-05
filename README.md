@@ -1,4 +1,4 @@
-# Quick Action [![Build Status](https://travis-ci.org/piruin/QuickAction.svg?branch=master)](https://travis-ci.org/piruin/QuickAction)
+# Quick Action [![Build Status](https://travis-ci.org/piruin/QuickAction.svg?branch=master)](https://travis-ci.org/piruin/QuickAction) [ ![Download](https://api.bintray.com/packages/blazei/maven/QuickAction/images/download.svg) ](https://bintray.com/blazei/maven/QuickAction/_latestVersion)
 
 Quick Action is a small android library for easy create Tooltips with some action or
 just as decoration. folk from [NewQuickAction3D](https://github.com/lorensiuswlt/NewQuickAction3D)
@@ -9,6 +9,8 @@ by [Lorensius W. L. T ](http://www.londatiga.net/).
 Because *NewQuickAction3D* is design of Android 2.x. So, I change it's style to fit with Material Design
 but still compatible with old java source code interface, Refactor, Transform to Gradle project
 and publish to JCenter.
+
+## Demo
 
 ![Quick Action demo][demo]
 
@@ -27,10 +29,11 @@ Add dependencies on app module
 ```groovy
 dependencies {
     ...
-    compile 'me.piruin:quickaction:2.0'
+    compile 'me.piruin:quickaction:+'
     ...
 }
 ```
+ See latest version at download badge above 
 
 ## How to Use
 
