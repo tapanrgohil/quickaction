@@ -28,5 +28,4 @@
     android:paddingRight="5dip"
     tools:text="Title"
     />
-
-</RelativeLayout>         
+</RelativeLayout>

@@ -28,5 +28,4 @@
     android:paddingStart="5dp"
     tools:text="Title"
     />
-
-</LinearLayout>         
+</LinearLayout>
