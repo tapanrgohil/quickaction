@@ -99,7 +99,6 @@ bintray {
     System.getenv('BINTRAY_KEY') ?: ''
   configurations = ['archives']
   publish = true
-  override = true
   pkg {
     repo = 'maven'
     name = 'QuickAction'
