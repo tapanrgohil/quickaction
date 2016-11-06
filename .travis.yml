@@ -19,7 +19,7 @@ android:
   - extra-android-m2repository
 
 script:
-  - ./gradlew assembleRelease
+  - ./gradlew build
 
 deploy:
   provider: script
