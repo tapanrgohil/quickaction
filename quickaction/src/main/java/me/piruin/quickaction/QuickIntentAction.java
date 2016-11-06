@@ -9,7 +9,7 @@ import java.util.List;
 import me.piruin.quickaction.QuickAction.OnActionItemClickListener;
 
 /**
- * @author Blast Piruin Panichphol <piruin.p@gmail.com>
+ * @author Blast Piruin Panichphol
  */
 public class QuickIntentAction {
   private static final int SERVICE = 1;

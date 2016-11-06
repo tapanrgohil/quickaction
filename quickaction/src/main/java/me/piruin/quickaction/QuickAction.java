@@ -26,9 +26,9 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * QuickAction popup, shows action list as icon and text in Tooltip popup. Currently
  * supports vertical and horizontal layout.
  *
- * @author Lorensius W. L. T <lorenz@londatiga.net>
+ * @author Lorensius W. L. T
  *
- *         Contributors: - Kevin Peck <kevinwpeck@gmail.com>
+ *         Contributors: - Kevin Peck
  */
 public class QuickAction extends PopupWindows implements OnDismissListener {
 
@@ -373,6 +373,8 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   /**
    * Set listener for window dismissed. This listener will only be fired if the quicakction dialog
    * is dismissed by clicking outside the dialog or clicking on sticky item.
+   *
+   * @param listener will fire when QuickaAtion dismiss
    */
   public void setOnDismissListener(QuickAction.OnDismissListener listener) {
     setOnDismissListener(this);
