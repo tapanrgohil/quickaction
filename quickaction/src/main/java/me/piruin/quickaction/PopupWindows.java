@@ -17,6 +17,7 @@
 
 package me.piruin.quickaction;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -63,9 +64,12 @@ class PopupWindows {
     mWindow.setFocusable(true);
     mWindow.setOutsideTouchable(true);
     mWindow.setContentView(mRootView);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    setShadows();
+  }
+
+  @TargetApi(Build.VERSION_CODES.LOLLIPOP) private void setShadows() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
       mWindow.setElevation(10);
-    }
   }
 
   void setContentView(View root) {
