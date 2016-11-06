@@ -99,12 +99,13 @@ See [CHANGELOG] for details
 
 This project under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) license
 
-[JCenter] : https://bintray.com/bintray/jcenter
-[JitPack] : https://jitpack.io/
-[CHANGELOG] : https://github.com/lorensiuswlt/NewQuickAction3D/blob/master/CHANGELOG.md
-[SampleActivity] : https://github.com/piruin/QuickAction/blob/master/quickaction-sample/src/main/java/me/piruin/quickaction/sample/SampleActivity.java
-[NewQuickAction3D] : https://github.com/lorensiuswlt/NewQuickAction3D
-[Piruin Panichphol] : https://piruin.me
-[Lorensius W. L. T] : http://www.londatiga.net/
-[screenshot]: https://github.com/piruin/QuickAction/blob/master/asset/screenshot.png "Screenshot"
+
+[JCenter]: https://bintray.com/bintray/jcenter
+[JitPack]: https://jitpack.io/
+[CHANGELOG]: https://github.com/lorensiuswlt/NewQuickAction3D/blob/master/CHANGELOG.md
+[SampleActivity]: https://github.com/piruin/QuickAction/blob/master/quickaction-sample/src/main/java/me/piruin/quickaction/sample/SampleActivity.java
+[NewQuickAction3D]: https://github.com/lorensiuswlt/NewQuickAction3D
+[Piruin Panichphol]: https://piruin.me
+[Lorensius W. L. T]: http://www.londatiga.net/
+[screenshot]: https://github.com/piruin/QuickAction/blob/master/asset/screenshot-small.png "Screenshot"
 [demo]: https://github.com/piruin/QuickAction/blob/master/asset/demo.gif "Demo gif"
