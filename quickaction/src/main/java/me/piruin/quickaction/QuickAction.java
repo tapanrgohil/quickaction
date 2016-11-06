@@ -17,6 +17,7 @@
 
 package me.piruin.quickaction;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -237,8 +238,14 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     return actionItems.get(index);
   }
 
-  private void show(@IdRes int anchorId) {
-
+  /**
+   * Show quickaction popup. Popup is automatically positioned, on top or bottom of anchor view.
+   *
+   * @param activity contain view to be anchor
+   * @param anchorId id of view to use as anchor of QuickAction's popup
+   */
+  private void show(@NonNull Activity activity, @IdRes int anchorId) {
+    show(activity.findViewById(anchorId));
   }
   /**
    * Show quickaction popup. Popup is automatically positioned, on top or bottom of anchor view.
