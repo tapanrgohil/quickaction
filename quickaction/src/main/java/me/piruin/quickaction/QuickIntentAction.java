@@ -9,25 +9,31 @@ import java.util.List;
 import me.piruin.quickaction.QuickAction.OnActionItemClickListener;
 
 /**
- * @author Blast Piruin Panichphol
+ * Builder to create QuickAction with ActionItem of Intent Activity or Service
  */
 public class QuickIntentAction {
   private static final int SERVICE = 1;
   private static final int ACTIVITY = 0;
-  Context mContext;
-  Intent mIntent;
-  int mOrientation = QuickAction.VERTICAL;
-  int mIntentType = ACTIVITY;
-  OnActionItemClickListener mOnActionItemClick;
-  String mType[] = {"Activity", "Service"};
 
+  private Context mContext;
+  private Intent mIntent;
+  private int mOrientation;
+  private int mIntentType = ACTIVITY;
+  private OnActionItemClickListener mOnActionItemClick;
+  private String mType[] = {"Activity", "Service"};
+
+  /**
+   * Constructor for default vertical layout
+   *
+   * @param context require
+   */
   public QuickIntentAction(Context context) {
-    mContext = context;
+    this(context, QuickAction.VERTICAL);
   }
 
-  public QuickIntentAction setOrientation(int orientation) {
+  public QuickIntentAction(Context context, int orientation) {
+    mContext = context;
     mOrientation = orientation;
-    return this;
   }
 
   public QuickIntentAction setServiceIntent(Intent services) {
@@ -48,8 +54,11 @@ public class QuickIntentAction {
   }
 
   public QuickAction create() {
-    QuickAction quickAction = new QuickAction(mContext, mOrientation);
+    if (mIntent == null)
+      throw new IllegalStateException(
+        "Must set intent be for create(), Use setActivityIntent() or "+"setServiceIntent()");
 
+    QuickAction quickAction = new QuickAction(mContext, mOrientation);
     // Add List of Support Activity or Services
     if (mIntent != null) {
       final List<ResolveInfo> lists;
@@ -64,7 +73,6 @@ public class QuickIntentAction {
           lists = pm.queryIntentActivities(mIntent, 0);
           break;
       }
-
       // Add Action Item of support intent.
       if (lists.size() > 0) {
         int index = 0;
@@ -79,7 +87,6 @@ public class QuickIntentAction {
         quickAction.addActionItem(item);
       }
     }
-
     return quickAction;
   }
 

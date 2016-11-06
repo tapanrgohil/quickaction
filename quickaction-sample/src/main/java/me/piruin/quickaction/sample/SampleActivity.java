@@ -88,9 +88,8 @@ public class SampleActivity extends AppCompatActivity {
     sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
     sendIntent.setType("text/plain");
 
-    final QuickAction quickIntent = new QuickIntentAction(this)
+    final QuickAction quickIntent = new QuickIntentAction(this, QuickAction.HORIZONTAL)
       .setActivityIntent(sendIntent)
-      .setOrientation(QuickAction.VERTICAL)
       .create();
     quickIntent.setColorRes(R.color.teal);
     quickIntent.setAnimStyle(QuickAction.Animation.REFLECT);

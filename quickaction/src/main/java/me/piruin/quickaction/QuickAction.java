@@ -25,10 +25,6 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 /**
  * QuickAction popup, shows action list as icon and text in Tooltip popup. Currently
  * supports vertical and horizontal layout.
- *
- * @author Lorensius W. L. T
- *
- *         Contributors: - Kevin Peck
  */
 public class QuickAction extends PopupWindows implements OnDismissListener {
 
@@ -197,7 +193,6 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       text.setVisibility(View.GONE);
 
     final int pos = mChildPos;
-    final int actionId = action.getActionId();
 
     container.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
