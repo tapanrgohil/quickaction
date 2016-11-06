@@ -3,8 +3,6 @@
 Quick Action is a small android library for easy create Tooltips with some action or
 just as decoration. folk from [NewQuickAction3D] by [Lorensius W. L. T].
 
-![Quick Action Screenshot][screenshot]
-
 > Not just a Tooltips, This a Tooltips with Action!.
 
 Because *NewQuickAction3D* is design of Android 2.x. So, I change it's style to fit with Material Design
@@ -107,5 +105,4 @@ This project under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) lice
 [NewQuickAction3D]: https://github.com/lorensiuswlt/NewQuickAction3D
 [Piruin Panichphol]: https://piruin.me
 [Lorensius W. L. T]: http://www.londatiga.net/
-[screenshot]: https://github.com/piruin/QuickAction/blob/master/asset/screenshot-small.png "Screenshot"
 [demo]: https://github.com/piruin/QuickAction/blob/master/asset/demo.gif "Demo gif"
