@@ -30,7 +30,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow.OnDismissListener;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +53,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   private LayoutInflater mInflater;
   private Resources mResource;
   private LinearLayout mTrack;
-  private ScrollView mScroller;
+  private ViewGroup mScroller;
   private OnActionItemClickListener mItemClickListener;
   private OnDismissListener mDismissListener;
   private List<ActionItem> actionItems = new ArrayList<>();
@@ -88,7 +87,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     mWindowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
     mResource = context.getResources();
 
-    setRootViewId(R.layout.popup);
+    setRootViewId(orientation == VERTICAL ? R.layout.popup : R.layout.popup_horizontal);
   }
 
   private void setRootViewId(@LayoutRes int id) {
@@ -99,7 +98,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     mArrowDown = mRootView.findViewById(R.id.arrow_down);
     mArrowUp = mRootView.findViewById(R.id.arrow_up);
 
-    mScroller = (ScrollView)mRootView.findViewById(R.id.scroller);
+    mScroller = (ViewGroup)mRootView.findViewById(R.id.scroller);
 
     // This was previously defined on show() method, moved here to prevent
     // force close that occured
@@ -188,7 +187,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     TextView container = (TextView)mInflater.inflate(R.layout.action_item, mTrack, false);
     container.setTextColor(mTextColor);
     if (title != null)
-      container.setText(title);
+      container.setText(" "+title+" ");
 
     if (action.haveIcon()) {
       int iconSize = mResource.getDimensionPixelOffset(R.dimen.icon_size);
@@ -208,10 +207,8 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
         if (mItemClickListener != null) {
           mItemClickListener.onItemClick(action);
         }
-
         if (!getActionItem(pos).isSticky()) {
           mDidAction = true;
-
           dismiss();
         }
       }
@@ -249,82 +246,76 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    * @param anchor view to use as anchor of QuickAction's popup
    */
   public void show(View anchor) {
-    if (getContext() != null) {
+    if (getContext() == null)
+      throw new IllegalStateException("Why context is null? It shouldn't be.");
 
-      preShow();
+    preShow();
 
-      int xPos, yPos, arrowPos;
+    int xPos, yPos, arrowPos;
 
-      mDidAction = false;
+    mDidAction = false;
 
-      int[] location = new int[2];
+    int[] location = new int[2];
+    anchor.getLocationOnScreen(location);
+    Rect anchorRect = new Rect(location[0], location[1], location[0]+anchor.getWidth(),
+                               location[1]+anchor.getHeight());
 
-      anchor.getLocationOnScreen(location);
+    mRootView.measure(WRAP_CONTENT, WRAP_CONTENT);
 
-      Rect anchorRect = new Rect(location[0], location[1], location[0]+anchor.getWidth(),
-                                 location[1]+anchor.getHeight());
+    int rootHeight = mRootView.getMeasuredHeight();
 
-      // mRootView.setLayoutParams(new
-      // LayoutParams(LayoutParams.WRAP_CONTENT,
-      // LayoutParams.WRAP_CONTENT));
-
-      mRootView.measure(WRAP_CONTENT, WRAP_CONTENT);
-
-      int rootHeight = mRootView.getMeasuredHeight();
-
-      if (rootWidth == 0) {
-        rootWidth = mRootView.getMeasuredWidth();
-      }
-
-      DisplayMetrics displaymetrics = new DisplayMetrics();
-      mWindowManager.getDefaultDisplay().getMetrics(displaymetrics);
-      int screenWidth = displaymetrics.widthPixels;
-      int screenHeight = displaymetrics.heightPixels;
-
-      // automatically get X coord of popup (top left)
-      if ((anchorRect.left+rootWidth) > screenWidth) {
-        xPos = anchorRect.left-(rootWidth-anchor.getWidth());
-        xPos = (xPos < 0) ? 0 : xPos;
-
-        arrowPos = anchorRect.centerX()-xPos;
-      } else {
-        if (anchor.getWidth() > rootWidth) {
-          xPos = anchorRect.centerX()-(rootWidth/2);
-        } else {
-          xPos = anchorRect.left;
-        }
-
-        arrowPos = anchorRect.centerX()-xPos;
-      }
-
-      int dyTop = anchorRect.top;
-      int dyBottom = screenHeight-anchorRect.bottom;
-
-      boolean onTop = dyTop > dyBottom;
-
-      if (onTop) {
-        if (rootHeight > dyTop) {
-          yPos = 15;
-          LayoutParams l = mScroller.getLayoutParams();
-          l.height = dyTop-anchor.getHeight();
-        } else {
-          yPos = anchorRect.top-rootHeight;
-        }
-      } else {
-        yPos = anchorRect.bottom;
-
-        if (rootHeight > dyBottom) {
-          LayoutParams l = mScroller.getLayoutParams();
-          l.height = dyBottom;
-        }
-      }
-
-      showArrow(((onTop) ? R.id.arrow_down : R.id.arrow_up), arrowPos);
-
-      setAnimationStyle(screenWidth, anchorRect.centerX(), onTop);
-
-      mWindow.showAtLocation(anchor, Gravity.NO_GRAVITY, xPos, yPos);
+    if (rootWidth == 0) {
+      rootWidth = mRootView.getMeasuredWidth();
     }
+
+    DisplayMetrics displaymetrics = new DisplayMetrics();
+    mWindowManager.getDefaultDisplay().getMetrics(displaymetrics);
+    int screenWidth = displaymetrics.widthPixels;
+    int screenHeight = displaymetrics.heightPixels;
+
+    // automatically get X coord of popup (top left)
+    if ((anchorRect.left+rootWidth) > screenWidth) {
+      xPos = anchorRect.left-(rootWidth-anchor.getWidth());
+      xPos = (xPos < 0) ? 0 : xPos;
+
+      arrowPos = anchorRect.centerX()-xPos;
+    } else {
+      if (anchor.getWidth() > rootWidth) {
+        xPos = anchorRect.centerX()-(rootWidth/2);
+      } else {
+        xPos = anchorRect.left;
+      }
+
+      arrowPos = anchorRect.centerX()-xPos;
+    }
+
+    int dyTop = anchorRect.top;
+    int dyBottom = screenHeight-anchorRect.bottom;
+
+    boolean onTop = dyTop > dyBottom;
+
+    if (onTop) {
+      if (rootHeight > dyTop) {
+        yPos = 15;
+        LayoutParams l = mScroller.getLayoutParams();
+        l.height = dyTop-anchor.getHeight();
+      } else {
+        yPos = anchorRect.top-rootHeight;
+      }
+    } else {
+      yPos = anchorRect.bottom;
+
+      if (rootHeight > dyBottom) {
+        LayoutParams l = mScroller.getLayoutParams();
+        l.height = dyBottom;
+      }
+    }
+
+    showArrow(((onTop) ? R.id.arrow_down : R.id.arrow_up), arrowPos);
+
+    setAnimationStyle(screenWidth, anchorRect.centerX(), onTop);
+
+    mWindow.showAtLocation(anchor, Gravity.NO_GRAVITY, xPos, yPos);
   }
 
   /**

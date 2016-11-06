@@ -19,7 +19,7 @@
   android:layout_height="wrap_content"
   >
 
-  <ScrollView
+  <HorizontalScrollView
     android:id="@+id/scroller"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -33,11 +33,11 @@
       android:id="@+id/tracks"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:orientation="vertical"
+      android:orientation="horizontal"
       android:padding="8dp"
       />
 
-  </ScrollView>
+  </HorizontalScrollView>
 
   <View
     android:id="@+id/arrow_up"
