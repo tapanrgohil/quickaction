@@ -84,7 +84,7 @@ bintray {
     issueTrackerUrl = 'https://github.com/' + project.githubRepo + '/issues'
     vcsUrl = 'https://github.com/' + project.githubRepo + '.git'
     githubRepo = project.githubRepo
-    githubReleaseNotesFile = 'README.md'
+    githubReleaseNotesFile = 'CHANGELOG.md'
     licenses = ['Apache-2.0']
     publicDownloadNumbers = true
     version {
