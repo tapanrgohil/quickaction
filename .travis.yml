@@ -22,7 +22,7 @@ script:
   - ./gradlew build
 
 after_failure:
-  - cat $HOME/QuickAction/quickaction/build/outputs/lint-results-debug.xml
+  - cat $HOME/build/piruin/QuickAction/quickaction/build/outputs/lint-results-debug.xml
 
 deploy:
   provider: script
