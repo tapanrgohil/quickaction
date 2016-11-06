@@ -187,7 +187,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     TextView container = (TextView)mInflater.inflate(R.layout.action_item, mTrack, false);
     container.setTextColor(mTextColor);
     if (title != null)
-      container.setText(" "+title+" ");
+      container.setText(String.format(" %s ", title));
 
     if (action.haveIcon()) {
       int iconSize = mResource.getDimensionPixelOffset(R.dimen.icon_size);

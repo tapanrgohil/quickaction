@@ -1,9 +1,9 @@
 # Quick Action [![Build Status](https://travis-ci.org/piruin/QuickAction.svg?branch=master)](https://travis-ci.org/piruin/QuickAction) [ ![Download](https://api.bintray.com/packages/blazei/maven/QuickAction/images/download.svg) ](https://bintray.com/blazei/maven/QuickAction/_latestVersion)
 
-![Quick Action Screenshot][screenshot]
-
 Quick Action is a small android library for easy create Tooltips with some action or
 just as decoration. folk from [NewQuickAction3D] by [Lorensius W. L. T].
+
+![Quick Action Screenshot][screenshot]
 
 > Not just a Tooltips, This a Tooltips with Action!.
 
@@ -102,7 +102,7 @@ This project under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) lice
 
 [JCenter]: https://bintray.com/bintray/jcenter
 [JitPack]: https://jitpack.io/
-[CHANGELOG]: https://github.com/lorensiuswlt/NewQuickAction3D/blob/master/CHANGELOG.md
+[CHANGELOG]: https://github.com/piruin/QuickAction/blob/master/CHANGELOG.md
 [SampleActivity]: https://github.com/piruin/QuickAction/blob/master/quickaction-sample/src/main/java/me/piruin/quickaction/sample/SampleActivity.java
 [NewQuickAction3D]: https://github.com/lorensiuswlt/NewQuickAction3D
 [Piruin Panichphol]: https://piruin.me
