@@ -54,7 +54,7 @@ public class SampleActivity extends AppCompatActivity {
 
     //create QuickAction. Use QuickAction.VERTICAL or QuickAction.HORIZONTAL param to define layout
     //orientation
-    final QuickAction quickAction = new QuickAction(this, QuickAction.VERTICAL);
+    final QuickAction quickAction = new QuickAction(this, QuickAction.HORIZONTAL);
     quickAction.setColorRes(R.color.pink);
     quickAction.setTextColorRes(R.color.white);
 
@@ -105,7 +105,7 @@ public class SampleActivity extends AppCompatActivity {
     sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
     sendIntent.setType("text/plain");
 
-    final QuickAction quickIntent = new QuickIntentAction(this, QuickAction.HORIZONTAL)
+    final QuickAction quickIntent = new QuickIntentAction(this)
       .setActivityIntent(sendIntent)
       .create();
     quickIntent.setColorRes(R.color.teal);

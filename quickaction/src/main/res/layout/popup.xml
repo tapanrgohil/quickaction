@@ -19,7 +19,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      android:padding="10dp"
+      android:padding="8dp"
       />
 
   </ScrollView>
@@ -35,6 +35,5 @@
     android:layout_width="@dimen/arrow_width"
     android:layout_height="@dimen/arrow_height"
     android:layout_below="@id/scroller"
-    android:layout_marginTop="-4dp"
     />
 </RelativeLayout>

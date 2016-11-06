@@ -28,7 +28,6 @@ import android.util.DisplayMetrics;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.ScrollView;
@@ -186,28 +185,21 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     actionItems.add(action);
 
     String title = action.getTitle();
-    View container;
-
-    if (mOrientation == HORIZONTAL)
-      container = mInflater.inflate(R.layout.action_item_horizontal, mTrack, false);
-    else
-      container = mInflater.inflate(R.layout.action_item_vertical, mTrack, false);
-
-    ImageView img = (ImageView)container.findViewById(R.id.iv_icon);
-    TextView text = (TextView)container.findViewById(R.id.tv_title);
-    text.setTextColor(mTextColor);
+    TextView container = (TextView)mInflater.inflate(R.layout.action_item, mTrack, false);
+    container.setTextColor(mTextColor);
+    if (title != null)
+      container.setText(title);
 
     if (action.haveIcon()) {
+      int iconSize = mResource.getDimensionPixelOffset(R.dimen.icon_size);
       Drawable icon = action.getIconDrawable(getContext());
-      img.setImageDrawable(icon);
-    } else {
-      img.setVisibility(View.GONE);
-    }
+      icon.setBounds(0, 0, iconSize, iconSize);
 
-    if (title != null)
-      text.setText(title);
-    else
-      text.setVisibility(View.GONE);
+      if (mOrientation == HORIZONTAL)
+        container.setCompoundDrawablesRelative(null, icon, null, null);
+      else
+        container.setCompoundDrawablesRelative(icon, null, null, null);
+    }
 
     final int pos = mChildPos;
 
