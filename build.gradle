@@ -7,7 +7,7 @@ version = {->
     standardOutput = stdout
   }
   return stdout.toString().trim()
-}
+}.call()
 
 buildscript {
   repositories {
