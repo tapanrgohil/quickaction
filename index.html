@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Quickaction by piruin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Quickaction</h1>
+      <h2 class="project-tagline">Android Library for easy create Tooltips with some action or just as decoration.</h2>
+      <a href="https://github.com/piruin/quickaction" class="btn">View on GitHub</a>
+      <a href="https://github.com/piruin/quickaction/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/piruin/quickaction/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="quick-action" class="anchor" href="#quick-action" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quick Action</h1>
+
+<p><a href="https://travis-ci.org/piruin/QuickAction"><img src="https://travis-ci.org/piruin/QuickAction.svg?branch=master" alt="Build Status"></a> <a href="https://bintray.com/blazei/maven/QuickAction/_latestVersion"> <img src="https://api.bintray.com/packages/blazei/maven/QuickAction/images/download.svg" alt="Download"> </a></p>
+
+<p>Quick Action is a small android library for easy create Tooltips with some action or
+just as decoration. folk from <a href="https://github.com/lorensiuswlt/NewQuickAction3D">NewQuickAction3D</a> by <a href="http://www.londatiga.net/">Lorensius W. L. T</a>.</p>
+
+<blockquote>
+<p>Not just a Tooltips, This a Tooltips with Action!.</p>
+</blockquote>
+
+<p>Because <em>NewQuickAction3D</em> is design of Android 2.x. So, I change it's style to fit with Material Design
+but still compatible with old java source code interface, Refactor, Transform to Gradle project
+and publish to JCenter.</p>
+
+<h2>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Demo</h2>
+
+<p><img src="https://github.com/piruin/QuickAction/blob/master/asset/demo.gif" alt="Quick Action demo" title="Demo gif"></p>
+
+<h2>
+<a id="download" class="anchor" href="#download" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download</h2>
+
+<h3>
+<a id="jcenter" class="anchor" href="#jcenter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://bintray.com/bintray/jcenter">JCenter</a>
+</h3>
+
+<ul>
+<li>
+<strong>Step 1</strong> - set JCenter repository (This step not require for modern android project)</li>
+<li>
+<strong>Step 2</strong> - Add dependencies on app module</li>
+</ul>
+
+<div class="highlight highlight-source-groovy"><pre>dependencies {
+  compile <span class="pl-s"><span class="pl-pds">'</span>me.piruin:quickaction:LATEST_VERSION<span class="pl-pds">'</span></span>
+}</pre></div>
+
+<p>Change <code>LATEST_VERSION</code> to latest version name</p>
+
+<h3>
+<a id="jitpack" class="anchor" href="#jitpack" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://jitpack.io/">JitPack</a>
+</h3>
+
+<ul>
+<li>
+<strong>Step 1</strong> - Set JitPack repository</li>
+<li>
+<strong>Step 2</strong> - Add dependencies on app module</li>
+</ul>
+
+<div class="highlight highlight-source-groovy"><pre>dependencies {
+  compile <span class="pl-s"><span class="pl-pds">'</span>com.github.piruin:quickaction:LATEST_VERSION<span class="pl-pds">'</span></span>
+}</pre></div>
+
+<p>Change <code>LATEST_VERSION</code> to latest version name</p>
+
+<h3>
+<a id="maven-central" class="anchor" href="#maven-central" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Maven Central</h3>
+
+<p>No, I'm not publish to Maven Central</p>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to Use</h2>
+
+<p>See <a href="https://github.com/piruin/QuickAction/blob/master/quickaction-sample/src/main/java/me/piruin/quickaction/sample/SampleActivity.java">SampleActivity</a> for Information how to use</p>
+
+<p>QuickAction almost use same old <a href="https://github.com/lorensiuswlt/NewQuickAction3D">NewQuickAction3D</a> interface. Original ExampleActivity by <a href="http://www.londatiga.net/">Lorensius W. L. T</a>
+still work and cover main part of it.
+You can get more information at his blog <a href="http://www.londatiga.net/it/how-to-create-quickaction-dialog-in-android/">http://www.londatiga.net/it/how-to-create-quickaction-dialog-in-android/</a></p>
+
+<h2>
+<a id="new-feature" class="anchor" href="#new-feature" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>New Feature</h2>
+
+<p>My QuickAction have some additional feature more than original</p>
+
+<h3>
+<a id="set-popups-color--text-color" class="anchor" href="#set-popups-color--text-color" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set Popup's Color &amp; Text Color</h3>
+
+<div class="highlight highlight-source-java"><pre>  <span class="pl-c">//Popup color</span>
+  quickAction<span class="pl-k">.</span>setColorRes(<span class="pl-smi">R</span><span class="pl-k">.</span>color<span class="pl-k">.</span>pink) <span class="pl-c">//set by Color Resource</span>
+  quickAction<span class="pl-k">.</span>setColor(<span class="pl-smi">Color</span><span class="pl-c1"><span class="pl-k">.</span>WHITE</span>) <span class="pl-c">// or by Color class</span>
+
+  <span class="pl-c">//Text color</span>
+  quickAction<span class="pl-k">.</span>setTextColorRes(<span class="pl-smi">R</span><span class="pl-k">.</span>color<span class="pl-k">.</span>red)
+  quickAction<span class="pl-k">.</span>setTextColor(<span class="pl-smi">Color</span><span class="pl-k">.</span><span class="pl-smi">Black</span>)</pre></div>
+
+<p>NOTE! setTextColor apply only ActionItem that added afterward.</p>
+
+<h3>
+<a id="quick-intent-action" class="anchor" href="#quick-intent-action" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quick Intent Action</h3>
+
+<p>To lazy create list of Activity or Service that match with your Intent</p>
+
+<div class="highlight highlight-source-java"><pre>  <span class="pl-smi">Intent</span> intent <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">Intent</span>(<span class="pl-smi">Action</span><span class="pl-c1"><span class="pl-k">.</span>VIEW</span>) <span class="pl-c">// intent your want to start</span>
+  <span class="pl-smi">QuickAction</span> quickIntent <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">QuickIntentAction</span>(<span class="pl-v">this</span>)
+    .setActivityIntent(intent)
+    .create();</pre></div>
+
+<h2>
+<a id="developer-by" class="anchor" href="#developer-by" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Developer By</h2>
+
+<ul>
+<li><a href="https://piruin.me">Piruin Panichphol</a></li>
+<li>
+<a href="http://www.londatiga.net/">Lorensius W. L. T</a> - Original Developer</li>
+</ul>
+
+<h2>
+<a id="contributors" class="anchor" href="#contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributors</h2>
+
+<ul>
+<li>Kevin Peck - <a href="mailto:kevinwpeck@gmail.com">kevinwpeck@gmail.com</a>
+</li>
+</ul>
+
+<h2>
+<a id="changes" class="anchor" href="#changes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Changes</h2>
+
+<p>See <a href="https://github.com/piruin/QuickAction/blob/master/CHANGELOG.md">CHANGELOG</a> for details</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>This project under <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a> license</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/piruin/quickaction">Quickaction</a> is maintained by <a href="https://github.com/piruin">piruin</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
