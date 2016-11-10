@@ -1,4 +1,4 @@
-# Quick Action [![Build Status](https://travis-ci.org/piruin/QuickAction.svg?branch=master)](https://travis-ci.org/piruin/QuickAction) [ ![Download](https://api.bintray.com/packages/blazei/maven/QuickAction/images/download.svg) ](https://bintray.com/blazei/maven/QuickAction/_latestVersion)
+# Quick Action [![Build Status](https://travis-ci.org/piruin/quickaction.svg?branch=master)](https://travis-ci.org/piruin/quickaction) [ ![Download](https://api.bintray.com/packages/blazei/maven/QuickAction/images/download.svg) ](https://bintray.com/blazei/maven/QuickAction/_latestVersion)
 
 Quick Action is a small android library for easy create Tooltips with some action or
 just as decoration. folk from [NewQuickAction3D] by [Lorensius W. L. T].
@@ -30,6 +30,16 @@ Change `LATEST_VERSION` to latest version name
 ### [JitPack]
 
 - **Step 1** - Set JitPack repository
+
+```groovy
+allprojects {
+  repositories {
+      ...
+      maven { url "https://jitpack.io" }
+    }
+  }
+```
+
 - **Step 2** - Add dependencies on app module
 
 ```groovy
@@ -100,9 +110,9 @@ This project under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) lice
 
 [JCenter]: https://bintray.com/bintray/jcenter
 [JitPack]: https://jitpack.io/
-[CHANGELOG]: https://github.com/piruin/QuickAction/blob/master/CHANGELOG.md
-[SampleActivity]: https://github.com/piruin/QuickAction/blob/master/quickaction-sample/src/main/java/me/piruin/quickaction/sample/SampleActivity.java
+[CHANGELOG]: https://github.com/piruin/quickaction/blob/master/CHANGELOG.md
+[SampleActivity]: https://github.com/piruin/quickaction/blob/master/quickaction-sample/src/main/java/me/piruin/quickaction/sample/SampleActivity.java
 [NewQuickAction3D]: https://github.com/lorensiuswlt/NewQuickAction3D
 [Piruin Panichphol]: https://piruin.me
 [Lorensius W. L. T]: http://www.londatiga.net/
-[demo]: https://github.com/piruin/QuickAction/blob/master/asset/demo.gif "Demo gif"
+[demo]: https://github.com/piruin/quickaction/blob/master/asset/demo.gif "Demo gif"

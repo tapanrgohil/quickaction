@@ -32,5 +32,5 @@ ext {
   ANDROID_BUILD_TOOLS = "25.0.0"
   ANDROID_SUPPORT_VERSION = "25.0.0"
 
-  githubRepo = 'piruin/QuickAction'
+  githubRepo = 'piruin/quickaction'
 }
