@@ -1,5 +1,7 @@
 # Change Log  [ ![Download](https://api.bintray.com/packages/blazei/maven/QuickAction/images/download.svg) ](https://bintray.com/blazei/maven/QuickAction/_latestVersion)
 
+## Version 2.1
+- Add small stroke for better visibility
 
 ## Version 2.0 *(2016-11-6)*
 

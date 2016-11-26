@@ -14,7 +14,10 @@
   ~  limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  tools:ignore="NegativeMargin"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content"
   >
@@ -23,10 +26,11 @@
     android:id="@+id/scroller"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="19dp"
     android:fadingEdgeLength="5dp"
     android:overScrollMode="never"
     android:scrollbars="none"
+    tools:color="#AAFFCC"
     >
 
     <LinearLayout
@@ -35,6 +39,8 @@
       android:layout_height="wrap_content"
       android:orientation="vertical"
       android:padding="8dp"
+      tools:minHeight="200dp"
+      tools:minWidth="200dp"
       />
 
   </ScrollView>
@@ -50,5 +56,6 @@
     android:layout_width="@dimen/arrow_width"
     android:layout_height="@dimen/arrow_height"
     android:layout_below="@id/scroller"
+    android:layout_marginTop="-2dp"
     />
 </RelativeLayout>

@@ -96,11 +96,10 @@ To lazy create list of Activity or Service that match with your Intent
 ## Developer By
 
 - [Piruin Panichphol]
-- [Lorensius W. L. T] - Original Developer
 
-## Contributors
+### Original Developer
 
-- Kevin Peck - <kevinwpeck@gmail.com>
+- [Lorensius W. L. T] 
 
 ## Changes
 
