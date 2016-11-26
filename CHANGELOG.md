@@ -18,7 +18,7 @@
 ## Version 1.0.1 *(2011-10-16)*
 
 - Improve sample code *(ExampleActivity.java)*
-- Add __Apache License, Version 2.0__ to this source code (see LICENSE.txt)
+- Add __Apache License, Version 2.0__ to this source code
 
 ## Version 1.0.0 *(2011-10-15)*
 
