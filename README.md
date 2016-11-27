@@ -1,7 +1,8 @@
 # Quick Action 
+[![License](https://img.shields.io/badge/License-Apache%202.0-red.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Build Status](https://travis-ci.org/piruin/quickaction.svg?branch=master)](https://travis-ci.org/piruin/quickaction) 
 [![Download](https://api.bintray.com/packages/blazei/maven/QuickAction/images/download.svg)](https://bintray.com/blazei/maven/QuickAction/_latestVersion)
-[![](https://jitpack.io/v/piruin/quickaction.svg)](https://jitpack.io/#piruin/quickaction)
+[![Download](https://jitpack.io/v/piruin/quickaction.svg)](https://jitpack.io/#piruin/quickaction)
 
 Quick Action is a small android library for easy create Tooltips with some action or
 just as decoration. folk from [NewQuickAction3D] by [Lorensius W. L. T].
@@ -19,7 +20,7 @@ and publish to JCenter.
 ## Download
 
 ### [JCenter]
-
+k
 - **Step 1** - set JCenter repository (This step not require for modern android project)
 - **Step 2** - Add dependencies on app module
 
@@ -109,6 +110,13 @@ See [CHANGELOG] for details
 
 This project under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) license
 
+### Notice
+
+Project/File | License | Copyright |
+--- | --- | ---|
+[NewQuickAction3D] | Apache 2.0 | Copyright 2011 Lorensius W. L. T |
+[ArrowDrawable.java] | MIT | Copyright (c) 2016. Viнt@rь
+
 
 [JCenter]: https://bintray.com/bintray/jcenter
 [JitPack]: https://jitpack.io/
@@ -118,3 +126,4 @@ This project under [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) lice
 [Piruin Panichphol]: https://piruin.me
 [Lorensius W. L. T]: http://www.londatiga.net/
 [demo]: https://github.com/piruin/quickaction/blob/master/asset/demo.gif "Demo gif"
+[ArrowDrawable.java]: https://github.com/ViHtarb/Tooltip/blob/master/library/src/main/java/com/tooltip/ArrowDrawable.java
