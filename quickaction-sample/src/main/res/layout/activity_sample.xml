@@ -29,12 +29,28 @@
     android:text="Button 2"
     />
   <Button
-    android:id="@+id/button3"
+      android:id="@+id/intent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentStart="true"
     android:layout_centerVertical="true"
-    android:text="Button 3"
-    tools:text="Button"
+      android:text="Intent Action"
     />
+
+  <Button
+      android:id="@+id/remove"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentStart="true"
+      android:layout_alignParentBottom="true"
+      android:text="remove"
+      />
+  <Button
+      android:id="@+id/replace"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentBottom="true"
+      android:text="replace"
+      />
 </RelativeLayout>

@@ -24,11 +24,21 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.*;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.DisplayMetrics;
-import android.view.*;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
@@ -197,30 +207,27 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   public void addActionItem(final ActionItem action) {
     int position = actionItems.size();
     actionItems.add(action);
+    addActionView(position, createViewFrom(action));
+  }
 
-    TextView actionView = createActionItemView(action);
-    actionView.setOnClickListener(new OnClickListener() {
-      @Override public void onClick(View v) {
-        if (mItemClickListener != null) {
-          mItemClickListener.onItemClick(action);
-        }
-        if (!getActionItemById(v.getId()).isSticky()) {
-          didAction = true;
-          dismiss();
-        }
-      }
-    });
-
+  private void addActionView(int position, TextView actionView) {
     if (orientation == HORIZONTAL && position != 0) {
+      position *= 2;
+      int separatorPos = position - 1;
       View separator = new View(getContext());
       separator.setBackgroundColor(Color.argb(32, 0, 0, 0));
       int width = resource.getDimensionPixelOffset(R.dimen.separator_width);
-      track.addView(separator, new LayoutParams(width, MATCH_PARENT));
+      track.addView(separator, separatorPos, new LayoutParams(width, MATCH_PARENT));
     }
-    track.addView(actionView);
+    track.addView(actionView, position);
   }
 
-  @NonNull private TextView createActionItemView(ActionItem action) {
+  public void addActionItem(int position, final ActionItem action) {
+    actionItems.add(position, action);
+    addActionView(position, createViewFrom(action));
+  }
+
+  @NonNull private TextView createViewFrom(final ActionItem action) {
     TextView actionView = (TextView)inflater.inflate(R.layout.action_item, track, false);
     actionView.setId(action.getActionId());
     actionView.setTextColor(textColor);
@@ -237,6 +244,17 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       else
         actionView.setCompoundDrawablesRelative(icon, null, null, null);
     }
+    actionView.setOnClickListener(new OnClickListener() {
+      @Override public void onClick(View v) {
+        if (mItemClickListener != null) {
+          mItemClickListener.onItemClick(action);
+        }
+        if (!getActionItemById(v.getId()).isSticky()) {
+          didAction = true;
+          dismiss();
+        }
+      }
+    });
     actionView.setFocusable(true);
     actionView.setClickable(true);
     return actionView;
@@ -252,6 +270,12 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     return actionItems.get(index);
   }
 
+  /**
+   * Get action item by Action's ID
+   *
+   * @param actionId Id of item
+   * @return Action Item with same id
+   */
   @Nullable
   public ActionItem getActionItemById(int actionId){
     for (ActionItem action : actionItems){
@@ -259,6 +283,36 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
         return action;
     }
     return null;
+  }
+
+  /**
+   * remove action item
+   *
+   * @param actionId Id of action to remove
+   * @return removed item
+   */
+  public ActionItem remove(int actionId) {
+    return remove(getActionItemById(actionId));
+  }
+
+  /**
+   * remove action item
+   *
+   * @param action action to remove
+   * @return removed item
+   */
+  public ActionItem remove(ActionItem action) {
+    int index = actionItems.indexOf(action);
+    if (index == -1) throw new RuntimeException("Now found action");
+
+    if (orientation == VERTICAL) {
+      track.removeViewAt(index);
+    } else {
+      int viewPos = index * 2;
+      track.removeViewAt(viewPos);
+      track.removeViewAt(viewPos - 1); //remove separator
+    }
+    return actionItems.remove(index);
   }
 
   /**

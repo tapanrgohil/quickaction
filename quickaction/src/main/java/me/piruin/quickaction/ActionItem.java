@@ -21,6 +21,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
+import java.util.Objects;
 
 /**
  * Action item, displayed as menu with icon and text.
@@ -185,12 +186,22 @@ public class ActionItem {
   }
 
   public Drawable getIconDrawable(Context context) {
-    if (iconDrawable == null)
-      iconDrawable = context.getResources().getDrawable(icon);
+    if (iconDrawable == null) iconDrawable = context.getResources().getDrawable(icon);
     return iconDrawable;
   }
 
   public void setIconDrawable(Drawable iconDrawable) {
     this.iconDrawable = iconDrawable;
+  }
+
+  @Override public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ActionItem that = (ActionItem) o;
+    return actionId == that.actionId;
+  }
+
+  @Override public int hashCode() {
+    return Objects.hash(actionId);
   }
 }

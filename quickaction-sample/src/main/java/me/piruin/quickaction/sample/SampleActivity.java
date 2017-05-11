@@ -79,6 +79,7 @@ public class SampleActivity extends AppCompatActivity {
         //here we can filter which action item was clicked with pos or actionId parameter
         String title = item.getTitle();
         Toast.makeText(SampleActivity.this, title+" selected", Toast.LENGTH_SHORT).show();
+        if (!item.isSticky()) quickAction.remove(item);
       }
     });
 
@@ -103,6 +104,7 @@ public class SampleActivity extends AppCompatActivity {
     btn2.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         quickAction.show(v);
+
       }
     });
 
@@ -117,10 +119,35 @@ public class SampleActivity extends AppCompatActivity {
       .create();
     quickIntent.setAnimStyle(QuickAction.Animation.REFLECT);
 
-    Button btn3 = (Button)this.findViewById(R.id.button3);
-    btn3.setOnClickListener(new View.OnClickListener() {
+    Button intent = (Button) this.findViewById(R.id.intent);
+    intent.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         quickIntent.show(v);
+      }
+    });
+
+    final Button remove = (Button) findViewById(R.id.remove);
+    remove.setOnClickListener(new View.OnClickListener() {
+      boolean removed = false;
+
+      @Override public void onClick(View v) {
+        if (removed) return;
+        quickAction.remove(quickAction.getActionItemById(ID_OK));
+        removed = true;
+        Toast.makeText(SampleActivity.this, "Removed OK Action!", Toast.LENGTH_SHORT).show();
+      }
+    });
+
+    Button add = (Button) findViewById(R.id.replace);
+    add.setOnClickListener(new View.OnClickListener() {
+      boolean toggle = false;
+
+      @Override public void onClick(View v) {
+        quickAction.remove(ID_ERASE);
+        quickAction.addActionItem(4, new ActionItem(ID_ERASE, "Erase",
+            toggle ? R.drawable.ic_clear : R.drawable.ic_clear_red));
+        toggle = !toggle;
+        Toast.makeText(SampleActivity.this, "Replaced", Toast.LENGTH_SHORT).show();
       }
     });
   }
