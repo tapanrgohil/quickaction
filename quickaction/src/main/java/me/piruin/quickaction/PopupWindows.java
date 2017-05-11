@@ -81,7 +81,7 @@ class PopupWindows {
     mWindow.setOnDismissListener(listener);
   }
 
-  void dismiss() {
+  public void dismiss() {
     mWindow.dismiss();
   }
 }
