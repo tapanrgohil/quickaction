@@ -222,6 +222,12 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     track.addView(actionView, position);
   }
 
+  /**
+   * Add action item at specify position
+   *
+   * @param position to add ActionItem (zero-base)
+   * @param action {@link ActionItem}
+   */
   public void addActionItem(int position, final ActionItem action) {
     actionItems.add(position, action);
     addActionView(position, createViewFrom(action));

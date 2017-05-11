@@ -23,8 +23,9 @@ import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.piruin.quickaction.ActionItem;
 import me.piruin.quickaction.QuickAction;
 import me.piruin.quickaction.QuickIntentAction;
@@ -38,14 +39,17 @@ public class SampleActivity extends AppCompatActivity {
   private static final int ID_ERASE = 5;
   private static final int ID_OK = 6;
 
+  private QuickAction quickAction;
+  private QuickAction quickIntent;
+
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_sample);
+    ButterKnife.bind(this);
 
     //Config default color
     QuickAction.setDefaultColor(ResourcesCompat.getColor(getResources(), R.color.teal, null));
     QuickAction.setDefaultTextColor(Color.BLACK);
-
-    setContentView(R.layout.activity_sample);
 
     ActionItem nextItem = new ActionItem(ID_DOWN, "Next", R.drawable.ic_arrow_downward);
     ActionItem prevItem = new ActionItem(ID_UP, "Prev", R.drawable.ic_arrow_upward);
@@ -60,7 +64,7 @@ public class SampleActivity extends AppCompatActivity {
 
     //create QuickAction. Use QuickAction.VERTICAL or QuickAction.HORIZONTAL param to define layout
     //orientation
-    final QuickAction quickAction = new QuickAction(this, QuickAction.HORIZONTAL);
+    quickAction = new QuickAction(this, QuickAction.HORIZONTAL);
     quickAction.setColorRes(R.color.pink);
     quickAction.setTextColorRes(R.color.white);
 
@@ -92,63 +96,43 @@ public class SampleActivity extends AppCompatActivity {
       }
     });
 
-    //show on btn1
-    Button btn1 = (Button)this.findViewById(R.id.button1);
-    btn1.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        quickAction.show(v);
-      }
-    });
-
-    Button btn2 = (Button)this.findViewById(R.id.button2);
-    btn2.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        quickAction.show(v);
-
-      }
-    });
-
     //Quick and Easy intent selector in tooltip styles
     Intent sendIntent = new Intent();
     sendIntent.setAction(Intent.ACTION_SEND);
     sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
     sendIntent.setType("text/plain");
 
-    final QuickAction quickIntent = new QuickIntentAction(this)
+    quickIntent = new QuickIntentAction(this)
       .setActivityIntent(sendIntent)
       .create();
     quickIntent.setAnimStyle(QuickAction.Animation.REFLECT);
+  }
 
-    Button intent = (Button) this.findViewById(R.id.intent);
-    intent.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        quickIntent.show(v);
-      }
-    });
+  @OnClick( { R.id.button1, R.id.button2 }) void onShow(View view) {
+    quickAction.show(view);
+  }
 
-    final Button remove = (Button) findViewById(R.id.remove);
-    remove.setOnClickListener(new View.OnClickListener() {
-      boolean removed = false;
+  @OnClick(R.id.intent) void onShowQuickIntent(View view) {
+    quickIntent.show(view);
+  }
 
-      @Override public void onClick(View v) {
-        if (removed) return;
-        quickAction.remove(quickAction.getActionItemById(ID_OK));
-        removed = true;
-        Toast.makeText(SampleActivity.this, "Removed OK Action!", Toast.LENGTH_SHORT).show();
-      }
-    });
+  boolean red = false;
 
-    Button add = (Button) findViewById(R.id.replace);
-    add.setOnClickListener(new View.OnClickListener() {
-      boolean toggle = false;
+  @OnClick(R.id.replace) void onReplaceActionItem(View view) {
+    quickAction.remove(ID_ERASE);
+    quickAction.addActionItem(4,
+        new ActionItem(ID_ERASE, "Erase", red ? R.drawable.ic_clear : R.drawable.ic_clear_red));
+    red = !red;
+    Toast.makeText(SampleActivity.this, "Replaced", Toast.LENGTH_SHORT).show();
+  }
 
-      @Override public void onClick(View v) {
-        quickAction.remove(ID_ERASE);
-        quickAction.addActionItem(4, new ActionItem(ID_ERASE, "Erase",
-            toggle ? R.drawable.ic_clear : R.drawable.ic_clear_red));
-        toggle = !toggle;
-        Toast.makeText(SampleActivity.this, "Replaced", Toast.LENGTH_SHORT).show();
-      }
-    });
+  boolean removed = false;
+
+  @OnClick(R.id.remove) void onRemoveItem(View view) {
+    if (removed) return;
+
+    quickAction.remove(quickAction.getActionItemById(ID_OK));
+    removed = true;
+    Toast.makeText(SampleActivity.this, "Removed OK Action!", Toast.LENGTH_SHORT).show();
   }
 }
