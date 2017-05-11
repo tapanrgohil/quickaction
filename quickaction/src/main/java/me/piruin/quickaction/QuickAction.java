@@ -74,8 +74,6 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   private List<ActionItem> actionItems = new ArrayList<>();
   private Animation animation = Animation.AUTO;
   private boolean didAction;
-  private int childPos = 0;
-  private int insertPos;
   private int orientation;
   private int rootWidth = 0;
   private int textColor = defaultTextColor;
@@ -197,13 +195,37 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    * @param action {@link ActionItem}
    */
   public void addActionItem(final ActionItem action) {
+    int position = actionItems.size();
     actionItems.add(action);
 
-    String title = action.getTitle();
-    TextView container = (TextView)inflater.inflate(R.layout.action_item, track, false);
-    container.setTextColor(textColor);
-    if (title != null)
-      container.setText(String.format(" %s ", title));
+    TextView actionView = createActionItemView(action);
+    actionView.setOnClickListener(new OnClickListener() {
+      @Override public void onClick(View v) {
+        if (mItemClickListener != null) {
+          mItemClickListener.onItemClick(action);
+        }
+        if (!getActionItemById(v.getId()).isSticky()) {
+          didAction = true;
+          dismiss();
+        }
+      }
+    });
+
+    if (orientation == HORIZONTAL && position != 0) {
+      View separator = new View(getContext());
+      separator.setBackgroundColor(Color.argb(32, 0, 0, 0));
+      int width = resource.getDimensionPixelOffset(R.dimen.separator_width);
+      track.addView(separator, new LayoutParams(width, MATCH_PARENT));
+    }
+    track.addView(actionView);
+  }
+
+  @NonNull private TextView createActionItemView(ActionItem action) {
+    TextView actionView = (TextView)inflater.inflate(R.layout.action_item, track, false);
+    actionView.setId(action.getActionId());
+    actionView.setTextColor(textColor);
+    if (action.getTitle() != null)
+      actionView.setText(String.format(" %s ", action.getTitle()));
 
     if (action.haveIcon()) {
       int iconSize = resource.getDimensionPixelOffset(R.dimen.icon_size);
@@ -211,36 +233,13 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       icon.setBounds(0, 0, iconSize, iconSize);
 
       if (orientation == HORIZONTAL)
-        container.setCompoundDrawablesRelative(null, icon, null, null);
+        actionView.setCompoundDrawablesRelative(null, icon, null, null);
       else
-        container.setCompoundDrawablesRelative(icon, null, null, null);
+        actionView.setCompoundDrawablesRelative(icon, null, null, null);
     }
-
-    final int pos = childPos;
-
-    container.setOnClickListener(new OnClickListener() {
-      @Override public void onClick(View v) {
-        if (mItemClickListener != null) {
-          mItemClickListener.onItemClick(action);
-        }
-        if (!getActionItem(pos).isSticky()) {
-          didAction = true;
-          dismiss();
-        }
-      }
-    });
-    container.setFocusable(true);
-    container.setClickable(true);
-
-    if (orientation == HORIZONTAL && childPos != 0) {
-      View separator = new View(getContext());
-      separator.setBackgroundColor(Color.argb(32, 0, 0, 0));
-      int width = resource.getDimensionPixelOffset(R.dimen.separator_width);
-      track.addView(separator, insertPos++, new LayoutParams(width, MATCH_PARENT));
-    }
-    track.addView(container, insertPos);
-    childPos++;
-    insertPos++;
+    actionView.setFocusable(true);
+    actionView.setClickable(true);
+    return actionView;
   }
 
   /**
@@ -253,13 +252,22 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     return actionItems.get(index);
   }
 
+  @Nullable
+  public ActionItem getActionItemById(int actionId){
+    for (ActionItem action : actionItems){
+      if (action.getActionId() == actionId)
+        return action;
+    }
+    return null;
+  }
+
   /**
    * Show quickaction popup. Popup is automatically positioned, on top or bottom of anchor view.
    *
    * @param activity contain view to be anchor
    * @param anchorId id of view to use as anchor of QuickAction's popup
    */
-  private void show(@NonNull Activity activity, @IdRes int anchorId) {
+  public void show(@NonNull Activity activity, @IdRes int anchorId) {
     show(activity.findViewById(anchorId));
   }
 
