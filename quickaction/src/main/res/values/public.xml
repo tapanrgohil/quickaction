@@ -16,4 +16,16 @@
 
 <resources>
   <public name="quick_action_lib" type="string" />
+
+  <public name="define_QuickAction" type="string"/>
+  <public name="library_QuickAction_author" type="string"/>
+  <public name="library_QuickAction_authorWebsite" type="string"/>
+  <public name="library_QuickAction_libraryName" type="string"/>
+  <public name="library_QuickAction_libraryDescription" type="string"/>
+  <public name="library_QuickAction_libraryVersion" type="string"/>
+  <public name="library_QuickAction_libraryWebsite" type="string"/>
+  <public name="library_QuickAction_licenseId" type="string"/>
+  <public name="library_QuickAction_isOpenSource" type="string"/>
+  <public name="library_QuickAction_repositoryLink" type="string"/>
+  <public name="library_QuickAction_classPath" type="string"/>
 </resources>
