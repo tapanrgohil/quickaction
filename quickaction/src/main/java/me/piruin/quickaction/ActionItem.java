@@ -21,6 +21,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
+import android.text.TextUtils;
 import java.util.Objects;
 
 /**
@@ -93,6 +94,13 @@ public class ActionItem {
    */
   public String getTitle() {
     return this.title;
+  }
+
+  /**
+   * @return true if title have been set
+   */
+  public boolean haveTitle() {
+    return !TextUtils.isEmpty(title);
   }
 
   /**

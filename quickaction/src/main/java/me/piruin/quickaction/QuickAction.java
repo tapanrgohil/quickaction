@@ -39,6 +39,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
@@ -210,7 +211,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     addActionView(position, createViewFrom(action));
   }
 
-  private void addActionView(int position, TextView actionView) {
+  private void addActionView(int position, View actionView) {
     if (orientation == HORIZONTAL && position != 0) {
       position *= 2;
       int separatorPos = position - 1;
@@ -233,29 +234,38 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     addActionView(position, createViewFrom(action));
   }
 
-  @NonNull private TextView createViewFrom(final ActionItem action) {
-    TextView actionView = (TextView)inflater.inflate(R.layout.action_item, track, false);
-    actionView.setId(action.getActionId());
-    actionView.setTextColor(textColor);
-    if (action.getTitle() != null)
-      actionView.setText(String.format(" %s ", action.getTitle()));
-
-    if (action.haveIcon()) {
-      int iconSize = resource.getDimensionPixelOffset(R.dimen.icon_size);
-      Drawable icon = action.getIconDrawable(getContext());
-      icon.setBounds(0, 0, iconSize, iconSize);
-
-      if (orientation == HORIZONTAL)
-        actionView.setCompoundDrawablesRelative(null, icon, null, null);
-      else
-        actionView.setCompoundDrawablesRelative(icon, null, null, null);
+  @NonNull private View createViewFrom(final ActionItem action) {
+    View actionView;
+    if (action.haveTitle()) {
+      TextView textView = (TextView) inflater.inflate(R.layout.action_item, track, false);
+      textView.setTextColor(textColor);
+      textView.setText(String.format(" %s ", action.getTitle()));
+      if (action.haveIcon()) {
+        int iconSize = resource.getDimensionPixelOffset(R.dimen.icon_size);
+        Drawable icon = action.getIconDrawable(getContext());
+        icon.setBounds(0, 0, iconSize, iconSize);
+        if (orientation == HORIZONTAL) {
+          textView.setCompoundDrawablesRelative(null, icon, null, null);
+        } else {
+          textView.setCompoundDrawablesRelative(icon, null, null, null);
+        }
+      }
+      actionView = textView;
+    } else {
+      ImageView imageView = (ImageView) inflater.inflate(R.layout.image_action_item, track, false);
+      imageView.setId(action.getActionId());
+      imageView.setImageDrawable(action.getIconDrawable(getContext()));
+      actionView = imageView;
     }
+
+    actionView.setId(action.getActionId());
     actionView.setOnClickListener(new OnClickListener() {
       @Override public void onClick(View v) {
+        action.setSelected(true);
         if (mItemClickListener != null) {
           mItemClickListener.onItemClick(action);
         }
-        if (!getActionItemById(v.getId()).isSticky()) {
+        if (!action.isSticky()) {
           didAction = true;
           dismiss();
         }
