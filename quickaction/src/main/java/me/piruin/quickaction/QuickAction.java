@@ -43,7 +43,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,17 +62,36 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
   private static int defaultColor = Color.WHITE;
   private static int defaultTextColor = Color.BLACK;
-  private int dividerColor = Color.argb(32, 0, 0, 0);
-  private boolean divider;
+  private static int defaultDividerColor = Color.argb(32, 0, 0, 0);
 
   public static void setDefaultTextColor(int defaultTextColor) {
     QuickAction.defaultTextColor = defaultTextColor;
+  }
+
+  public static void setDefaultTextColor(Context context, @ColorRes int defaultTextColor) {
+    QuickAction.defaultTextColor = context.getResources().getColor(defaultTextColor);
+  }
+
+  public static void setDefaultDividerColor(int defaultDividerColor) {
+    QuickAction.defaultDividerColor = defaultDividerColor;
+  }
+
+  public static void setDefaultDividerColor(Context context, @ColorRes int defaultDividerColor) {
+    QuickAction.defaultDividerColor = context.getResources().getColor(defaultDividerColor);
   }
 
   public static void setDefaultColor(int defaultColor) {
     QuickAction.defaultColor = defaultColor;
   }
 
+  public static void setDefaultColor(Context context, @ColorRes int setDefaultColor) {
+    QuickAction.defaultColor = context.getResources().getColor(setDefaultColor);
+  }
+
+  private final int stroke;
+  private final int shadowColor;
+
+  private boolean enabledDivider;
   private WindowManager windowManager;
   private View rootView;
   private View arrowUp;
@@ -90,10 +108,8 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   private boolean didAction;
   private int orientation;
   private int rootWidth = 0;
+  private int dividerColor = defaultDividerColor;
   private int textColor = defaultTextColor;
-
-  private final int stroke;
-  private final int shadowColor;
 
   /**
    * Constructor for default vertical layout
@@ -107,33 +123,34 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   /**
    * Constructor allowing orientation override QuickAction.HORIZONTAL or QuickAction.VERTICAL
    *
-   * @param context     Context
+   * @param context Context
    * @param orientation Layout orientation, can be vartical or horizontal
    */
   public QuickAction(@NonNull Context context, int orientation) {
     super(context);
     this.orientation = orientation;
-    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+    inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    windowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
     resource = context.getResources();
 
     stroke = resource.getDimensionPixelSize(R.dimen.stroke);
     shadowColor = resource.getColor(R.color.stroke);
 
     setRootView(orientation == VERTICAL ? R.layout.popup : R.layout.popup_horizontal);
+    enabledDivider = orientation == HORIZONTAL;
   }
 
   private void setRootView(@LayoutRes int id) {
     rootView = inflater.inflate(id, null);
     rootView.setLayoutParams(new LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
 
-    track = (LinearLayout) rootView.findViewById(R.id.tracks);
+    track = (LinearLayout)rootView.findViewById(R.id.tracks);
     track.setOrientation(orientation);
 
     arrowDown = rootView.findViewById(R.id.arrow_down);
     arrowUp = rootView.findViewById(R.id.arrow_up);
 
-    scroller = (ViewGroup) rootView.findViewById(R.id.scroller);
+    scroller = (ViewGroup)rootView.findViewById(R.id.scroller);
 
     setContentView(rootView);
     setColor(defaultColor);
@@ -166,8 +183,8 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   }
 
   /**
-   * Set color for text of each action item. MUST call this before add action item, sorry I'm just
-   * lazy.
+   * Set color for text of each action item. MUST call this before add {@link ActionItem}
+   * , sorry I'm just too lazy.
    *
    * @param textColorRes Color resource id to use
    */
@@ -176,13 +193,43 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   }
 
   /**
-   * Set color for text of each action item. MUST call this before add action item, sorry I'm just
-   * lazy.
+   * Set color for text of each action item. MUST call this before add {@link ActionItem}, sorry
+   * I'm just
+   * too lazy.
    *
    * @param textColor Color to use
    */
   public void setTextColor(@ColorInt int textColor) {
     this.textColor = textColor;
+  }
+
+  /**
+   * Set color for divider. MUST call this before add {@link ActionItem}, sorry I'm just
+   * too lazy.
+   *
+   * @param color use with divider
+   */
+  public void setDividerColor(int color) {
+    this.dividerColor = color;
+  }
+
+  /**
+   * Set color for text of each action item. MUST call this before add {@link ActionItem}, sorry I'm
+   * just too lazy
+   *
+   * @param colorRes android color resource use with divider
+   */
+  public void setDividerColorRes(@ColorRes int colorRes) {
+    this.dividerColor = resource.getColor(colorRes);
+  }
+
+  /**
+   * to Enable or Disable divider this must be called before add {@link ActionItem}
+   *
+   * @param enabled default is true for Horizontal and false Vertical
+   */
+  public void setEnabledDivider(boolean enabled) {
+    this.enabledDivider = enabled;
   }
 
   /**
@@ -214,53 +261,31 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     addActionView(position, createViewFrom(action));
   }
 
-/*  private void addActionView(int position, View actionView) {
-    if (orientation == HORIZONTAL && position != 0) {
-      position *= 2;
-      int separatorPos = position - 1;
-      View separator = new View(getContext());
-      separator.setBackgroundColor(Color.argb(32, 0, 0, 0));
-      int width = resource.getDimensionPixelOffset(R.dimen.separator_width);
-      track.addView(separator, separatorPos, new LayoutParams(width, MATCH_PARENT));
-    }
-    track.addView(actionView, position);
-  }*/
-
   private void addActionView(int position, View actionView) {
-    if (orientation == HORIZONTAL && position != 0) {
+    if (enabledDivider && position != 0) {
       position *= 2;
-      int separatorPos = position - 1;
-      View separator = new View(getContext());
-      separator.setBackgroundColor(Color.argb(32, 0, 0, 0));
-      int width = resource.getDimensionPixelOffset(R.dimen.separator_width);
-      track.addView(separator, separatorPos, new LayoutParams(width, MATCH_PARENT));
-    } else if (orientation == VERTICAL && position != 0 && divider) {
-      position *= 2;
-      int separatorPos = position - 1;
+      int separatorPos = position-1;
       View separator = new View(getContext());
       separator.setBackgroundColor(dividerColor);
       int width = resource.getDimensionPixelOffset(R.dimen.separator_width);
-      track.addView(separator, separatorPos, new LayoutParams(MATCH_PARENT, width));
+      LayoutParams layoutParams = null;
+      switch (orientation) {
+        case VERTICAL:
+          layoutParams = new LayoutParams(MATCH_PARENT, width);
+          break;
+        case HORIZONTAL:
+          layoutParams = new LayoutParams(width, MATCH_PARENT);
+          break;
+      }
+      track.addView(separator, separatorPos, layoutParams);
     }
     track.addView(actionView, position);
   }
 
-  /**
-   * Add action item at specify position
-   *
-   * @param position to add ActionItem (zero-base)
-   * @param action   {@link ActionItem}
-   */
-  public void addActionItem(int position, final ActionItem action) {
-    actionItems.add(position, action);
-    addActionView(position, createViewFrom(action));
-  }
-
-  @NonNull
-  private View createViewFrom(final ActionItem action) {
+  @NonNull private View createViewFrom(final ActionItem action) {
     View actionView;
     if (action.haveTitle()) {
-      TextView textView = (TextView) inflater.inflate(R.layout.action_item, track, false);
+      TextView textView = (TextView)inflater.inflate(R.layout.action_item, track, false);
       textView.setTextColor(textColor);
       textView.setText(String.format(" %s ", action.getTitle()));
       if (action.haveIcon()) {
@@ -275,7 +300,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       }
       actionView = textView;
     } else {
-      ImageView imageView = (ImageView) inflater.inflate(R.layout.image_action_item, track, false);
+      ImageView imageView = (ImageView)inflater.inflate(R.layout.image_action_item, track, false);
       imageView.setId(action.getActionId());
       imageView.setImageDrawable(action.getIconDrawable(getContext()));
       actionView = imageView;
@@ -283,8 +308,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
     actionView.setId(action.getActionId());
     actionView.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
+      @Override public void onClick(View v) {
         action.setSelected(true);
         if (mItemClickListener != null) {
           mItemClickListener.onItemClick(action);
@@ -301,6 +325,17 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   }
 
   /**
+   * Add action item at specify position
+   *
+   * @param position to add ActionItem (zero-base)
+   * @param action {@link ActionItem}
+   */
+  public void addActionItem(int position, final ActionItem action) {
+    actionItems.add(position, action);
+    addActionView(position, createViewFrom(action));
+  }
+
+  /**
    * Get action item at an index
    *
    * @param index Index of item (position from callback)
@@ -308,21 +343,6 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    */
   public ActionItem getActionItem(int index) {
     return actionItems.get(index);
-  }
-
-  /**
-   * Get action item by Action's ID
-   *
-   * @param actionId Id of item
-   * @return Action Item with same id
-   */
-  @Nullable
-  public ActionItem getActionItemById(int actionId) {
-    for (ActionItem action : actionItems) {
-      if (action.getActionId() == actionId)
-        return action;
-    }
-    return null;
   }
 
   /**
@@ -336,6 +356,20 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   }
 
   /**
+   * Get action item by Action's ID
+   *
+   * @param actionId Id of item
+   * @return Action Item with same id
+   */
+  @Nullable public ActionItem getActionItemById(int actionId) {
+    for (ActionItem action : actionItems) {
+      if (action.getActionId() == actionId)
+        return action;
+    }
+    return null;
+  }
+
+  /**
    * remove action item
    *
    * @param action action to remove
@@ -343,14 +377,15 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    */
   public ActionItem remove(ActionItem action) {
     int index = actionItems.indexOf(action);
-    if (index == -1) throw new RuntimeException("Now found action");
+    if (index == -1)
+      throw new RuntimeException("Now found action");
 
     if (orientation == VERTICAL) {
       track.removeViewAt(index);
     } else {
-      int viewPos = index * 2;
+      int viewPos = index*2;
       track.removeViewAt(viewPos);
-      track.removeViewAt(viewPos - 1); //remove separator
+      track.removeViewAt(viewPos-1); //remove separator
     }
     return actionItems.remove(index);
   }
@@ -382,8 +417,8 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
     int[] location = new int[2];
     anchor.getLocationOnScreen(location);
-    Rect anchorRect = new Rect(location[0], location[1], location[0] + anchor.getWidth(),
-      location[1] + anchor.getHeight());
+    Rect anchorRect = new Rect(location[0], location[1], location[0]+anchor.getWidth(),
+                               location[1]+anchor.getHeight());
 
     rootView.measure(WRAP_CONTENT, WRAP_CONTENT);
 
@@ -399,23 +434,23 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     int screenHeight = displaymetrics.heightPixels;
 
     // automatically get X coord of popup (top left)
-    if ((anchorRect.left + rootWidth) > screenWidth) {
-      xPos = anchorRect.left - (rootWidth - anchor.getWidth());
+    if ((anchorRect.left+rootWidth) > screenWidth) {
+      xPos = anchorRect.left-(rootWidth-anchor.getWidth());
       xPos = (xPos < 0) ? 0 : xPos;
 
-      arrowPos = anchorRect.centerX() - xPos;
+      arrowPos = anchorRect.centerX()-xPos;
     } else {
       if (anchor.getWidth() > rootWidth) {
-        xPos = anchorRect.centerX() - (rootWidth / 2);
+        xPos = anchorRect.centerX()-(rootWidth/2);
       } else {
         xPos = anchorRect.left;
       }
 
-      arrowPos = anchorRect.centerX() - xPos;
+      arrowPos = anchorRect.centerX()-xPos;
     }
 
     int dyTop = anchorRect.top;
-    int dyBottom = screenHeight - anchorRect.bottom;
+    int dyBottom = screenHeight-anchorRect.bottom;
 
     boolean onTop = dyTop > dyBottom;
 
@@ -423,9 +458,9 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       if (rootHeight > dyTop) {
         yPos = 15;
         LayoutParams l = scroller.getLayoutParams();
-        l.height = dyTop - anchor.getHeight();
+        l.height = dyTop-anchor.getHeight();
       } else {
-        yPos = anchorRect.top - rootHeight;
+        yPos = anchorRect.top-rootHeight;
       }
     } else {
       yPos = anchorRect.bottom;
@@ -447,18 +482,17 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    * Set animation style
    *
    * @param screenWidth screen width
-   * @param requestedX  distance from left edge
-   * @param onTop       flag to indicate where the popup should be displayed. Set TRUE if displayed on top
-   *                    of anchor view and vice versa
+   * @param requestedX distance from left edge
+   * @param onTop flag to indicate where the popup should be displayed. Set TRUE if displayed on top
+   * of anchor view and vice versa
    */
-  private void setAnimationStyle(
-    int screenWidth, int requestedX, boolean onTop) {
-    int arrowPos = requestedX - arrowUp.getMeasuredWidth() / 2;
+  private void setAnimationStyle(int screenWidth, int requestedX, boolean onTop) {
+    int arrowPos = requestedX-arrowUp.getMeasuredWidth()/2;
     switch (animation) {
       case AUTO:
-        if (arrowPos <= screenWidth / 4)
+        if (arrowPos <= screenWidth/4)
           mWindow.setAnimationStyle(Animation.GROW_FROM_LEFT.get(onTop));
-        else if (arrowPos > screenWidth / 4 && arrowPos < 3 * (screenWidth / 4))
+        else if (arrowPos > screenWidth/4 && arrowPos < 3*(screenWidth/4))
           mWindow.setAnimationStyle(Animation.GROW_FROM_CENTER.get(onTop));
         else
           mWindow.setAnimationStyle(Animation.GROW_FROM_RIGHT.get(onTop));
@@ -482,9 +516,9 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
     showArrow.setVisibility(View.VISIBLE);
 
-    ViewGroup.MarginLayoutParams param = (ViewGroup.MarginLayoutParams) showArrow.getLayoutParams();
+    ViewGroup.MarginLayoutParams param = (ViewGroup.MarginLayoutParams)showArrow.getLayoutParams();
 
-    param.leftMargin = requestedX - arrowWidth / 2;
+    param.leftMargin = requestedX-arrowWidth/2;
 
     hideArrow.setVisibility(View.GONE);
   }
@@ -501,65 +535,37 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     dismissListener = listener;
   }
 
-  @Override
-  public void onDismiss() {
+  @Override public void onDismiss() {
     if (!didAction && dismissListener != null) {
       dismissListener.onDismiss();
     }
   }
 
-  /**
-   * set divider to vertical popup default will be false
-   */
-  public void setVerticalDivider() {
-    this.divider = true;
-  }
-
-  /**
-   *
-   * @param color set divider color default will be as it is
-   */
-  public void setVerticalDivider(int color) {
-    setVerticalDivider();
-    this.dividerColor = color;
-
-  }
-
   public enum Animation {
     GROW_FROM_LEFT {
-      @Override
-      int get(boolean onTop) {
+      @Override int get(boolean onTop) {
         return (onTop) ? R.style.Animation_PopUpMenu_Left : R.style.Animation_PopDownMenu_Left;
       }
-    },
-    GROW_FROM_RIGHT {
-      @Override
-      int get(boolean onTop) {
+    }, GROW_FROM_RIGHT {
+      @Override int get(boolean onTop) {
         return (onTop) ? R.style.Animation_PopUpMenu_Right : R.style.Animation_PopDownMenu_Right;
       }
-    },
-    GROW_FROM_CENTER {
-      @Override
-      int get(boolean onTop) {
+    }, GROW_FROM_CENTER {
+      @Override int get(boolean onTop) {
         return (onTop) ? R.style.Animation_PopUpMenu_Center : R.style.Animation_PopDownMenu_Center;
       }
-    },
-    REFLECT {
-      @Override
-      int get(boolean onTop) {
+    }, REFLECT {
+      @Override int get(boolean onTop) {
         return (onTop) ? R.style.Animation_PopUpMenu_Reflect
-          : R.style.Animation_PopDownMenu_Reflect;
+                       : R.style.Animation_PopDownMenu_Reflect;
       }
-    },
-    AUTO {
-      @Override
-      int get(boolean onTop) {
+    }, AUTO {
+      @Override int get(boolean onTop) {
         throw new UnsupportedOperationException("Can't use this");
       }
     };
 
-    @StyleRes
-    abstract int get(boolean onTop);
+    @StyleRes abstract int get(boolean onTop);
   }
 
   /**
