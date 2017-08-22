@@ -86,7 +86,8 @@ My QuickAction have some additional feature more than original
 ```
 NOTE! setTextColor apply only ActionItem that added afterward.
 
-### Divider
+#### Divider
+Since 2.4
 Control divider visibility and color by [milap tank](https://github.com/milaptank)
 
 ```java
@@ -94,6 +95,20 @@ Control divider visibility and color by [milap tank](https://github.com/milaptan
   quickAction.setDividerColor(Color.WHITE);
 ```
 By default, Divider is `enable` for Horizontal and `disable` of Vertical
+
+#### Override Resouce
+Since 2.4
+android Dimen and Color resource of QuickAction marked as public, So you can override it on resource file in your project 
+
+```xml
+  <dimen name="quick_action_icon_size">@dimen/menu_icon_size</dimen>
+  <dimen name="quick_action_arrow_width">40dp</dimen>
+  <dimen name="quick_action_arrow_height">40dp</dimen>
+  <dimen name="quick_action_corner">@dimen/card_corner</dimen>
+  <dimen name="quick_action_shadow_size">@dimen/card_corner</dimen>
+  <dimen name="quick_action_separator_width">@dimen/list_separator_size</dimen>
+  <color name="quick_action_shadow_color">@color/primary_color_dark</color>
+```
 
 ### Quick Intent Action
 
@@ -105,7 +120,6 @@ To lazy create list of Activity or Service that match with your Intent
     .setActivityIntent(intent)
     .create();
 ```
-
 
 ## Developer By
 
