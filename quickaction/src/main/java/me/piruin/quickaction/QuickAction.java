@@ -88,7 +88,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     QuickAction.defaultColor = context.getResources().getColor(setDefaultColor);
   }
 
-  private final int stroke;
+  private final int shadowSize;
   private final int shadowColor;
 
   private boolean enabledDivider;
@@ -133,8 +133,8 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     windowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
     resource = context.getResources();
 
-    stroke = resource.getDimensionPixelSize(R.dimen.stroke);
-    shadowColor = resource.getColor(R.color.stroke);
+    shadowSize = resource.getDimensionPixelSize(R.dimen.quick_action_shadow_size);
+    shadowColor = resource.getColor(R.color.quick_action_shadow_color);
 
     setRootView(orientation == VERTICAL ? R.layout.popup : R.layout.popup_horizontal);
     enabledDivider = orientation == HORIZONTAL;
@@ -165,11 +165,11 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   public void setColor(@ColorInt int popupColor) {
     GradientDrawable drawable = new GradientDrawable();
     drawable.setColor(popupColor);
-    drawable.setStroke(stroke, shadowColor);
-    drawable.setCornerRadius(resource.getDimension(R.dimen.popup_corner));
+    drawable.setStroke(shadowSize, shadowColor);
+    drawable.setCornerRadius(resource.getDimension(R.dimen.quick_action_corner));
 
-    arrowDown.setBackground(new ArrowDrawable(ARROW_DOWN, popupColor, stroke, shadowColor));
-    arrowUp.setBackground(new ArrowDrawable(ARROW_UP, popupColor, stroke, shadowColor));
+    arrowDown.setBackground(new ArrowDrawable(ARROW_DOWN, popupColor, shadowSize, shadowColor));
+    arrowUp.setBackground(new ArrowDrawable(ARROW_UP, popupColor, shadowSize, shadowColor));
     scroller.setBackground(drawable);
   }
 
@@ -267,7 +267,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       int separatorPos = position-1;
       View separator = new View(getContext());
       separator.setBackgroundColor(dividerColor);
-      int width = resource.getDimensionPixelOffset(R.dimen.separator_width);
+      int width = resource.getDimensionPixelOffset(R.dimen.quick_action_separator_width);
       LayoutParams layoutParams = null;
       switch (orientation) {
         case VERTICAL:
@@ -289,7 +289,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       textView.setTextColor(textColor);
       textView.setText(String.format(" %s ", action.getTitle()));
       if (action.haveIcon()) {
-        int iconSize = resource.getDimensionPixelOffset(R.dimen.icon_size);
+        int iconSize = resource.getDimensionPixelOffset(R.dimen.quick_action_icon_size);
         Drawable icon = action.getIconDrawable(getContext());
         icon.setBounds(0, 0, iconSize, iconSize);
         if (orientation == HORIZONTAL) {
