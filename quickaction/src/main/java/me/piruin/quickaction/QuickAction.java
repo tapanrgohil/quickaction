@@ -52,8 +52,8 @@ import static me.piruin.quickaction.ArrowDrawable.ARROW_DOWN;
 import static me.piruin.quickaction.ArrowDrawable.ARROW_UP;
 
 /**
- * QuickAction popup, shows action list as icon and text in Tooltip popup. Currently supports
- * vertical and horizontal layout.
+ * QuickAction popup, shows action list as icon and text in Tooltip
+ * popup. Currently supports vertical and horizontal layout.
  */
 public class QuickAction extends PopupWindows implements OnDismissListener {
 
@@ -63,34 +63,8 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   private static int defaultColor = Color.WHITE;
   private static int defaultTextColor = Color.BLACK;
   private static int defaultDividerColor = Color.argb(32, 0, 0, 0);
-
-  public static void setDefaultTextColor(int defaultTextColor) {
-    QuickAction.defaultTextColor = defaultTextColor;
-  }
-
-  public static void setDefaultTextColor(Context context, @ColorRes int defaultTextColor) {
-    QuickAction.defaultTextColor = context.getResources().getColor(defaultTextColor);
-  }
-
-  public static void setDefaultDividerColor(int defaultDividerColor) {
-    QuickAction.defaultDividerColor = defaultDividerColor;
-  }
-
-  public static void setDefaultDividerColor(Context context, @ColorRes int defaultDividerColor) {
-    QuickAction.defaultDividerColor = context.getResources().getColor(defaultDividerColor);
-  }
-
-  public static void setDefaultColor(int defaultColor) {
-    QuickAction.defaultColor = defaultColor;
-  }
-
-  public static void setDefaultColor(Context context, @ColorRes int setDefaultColor) {
-    QuickAction.defaultColor = context.getResources().getColor(setDefaultColor);
-  }
-
   private final int shadowSize;
   private final int shadowColor;
-
   private boolean enabledDivider;
   private WindowManager windowManager;
   private View rootView;
@@ -100,7 +74,6 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   private Resources resource;
   private LinearLayout track;
   private ViewGroup scroller;
-
   private OnActionItemClickListener mItemClickListener;
   private OnDismissListener dismissListener;
   private List<ActionItem> actionItems = new ArrayList<>();
@@ -136,7 +109,8 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     shadowSize = resource.getDimensionPixelSize(R.dimen.quick_action_shadow_size);
     shadowColor = resource.getColor(R.color.quick_action_shadow_color);
 
-    setRootView(orientation == VERTICAL ? R.layout.popup : R.layout.popup_horizontal);
+    setRootView(
+      orientation == VERTICAL ? R.layout.quick_action_vertical : R.layout.quick_action_horizontal);
     enabledDivider = orientation == HORIZONTAL;
   }
 
@@ -157,9 +131,9 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   }
 
   /**
-   * Set color of popup
+   * Set color of QuickAction
    *
-   * @param popupColor Color to fill popup
+   * @param popupColor Color to fill QuickAction
    * @see Color
    */
   public void setColor(@ColorInt int popupColor) {
@@ -173,18 +147,42 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     scroller.setBackground(drawable);
   }
 
+  public static void setDefaultTextColor(int defaultTextColor) {
+    QuickAction.defaultTextColor = defaultTextColor;
+  }
+
+  public static void setDefaultTextColor(Context context, @ColorRes int defaultTextColor) {
+    QuickAction.defaultTextColor = context.getResources().getColor(defaultTextColor);
+  }
+
+  public static void setDefaultDividerColor(int defaultDividerColor) {
+    QuickAction.defaultDividerColor = defaultDividerColor;
+  }
+
+  public static void setDefaultDividerColor(Context context, @ColorRes int defaultDividerColor) {
+    QuickAction.defaultDividerColor = context.getResources().getColor(defaultDividerColor);
+  }
+
+  public static void setDefaultColor(int defaultColor) {
+    QuickAction.defaultColor = defaultColor;
+  }
+
+  public static void setDefaultColor(Context context, @ColorRes int setDefaultColor) {
+    QuickAction.defaultColor = context.getResources().getColor(setDefaultColor);
+  }
+
   /**
-   * Set color of popup by color define in xml resource
+   * Set color of QuickAction by color define in xml resource
    *
-   * @param popupColor Color resource id to fill popup
+   * @param popupColor Color resource id to fill QuickAction
    */
   public void setColorRes(@ColorRes int popupColor) {
     setColor(resource.getColor(popupColor));
   }
 
   /**
-   * Set color for text of each action item. MUST call this before add {@link ActionItem}
-   * , sorry I'm just too lazy.
+   * Set color for text of each action item. MUST call this before add {@link ActionItem},
+   * sorry I'm just too lazy.
    *
    * @param textColorRes Color resource id to use
    */
@@ -194,8 +192,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
 
   /**
    * Set color for text of each action item. MUST call this before add {@link ActionItem}, sorry
-   * I'm just
-   * too lazy.
+   * I'm just too lazy.
    *
    * @param textColor Color to use
    */
@@ -285,7 +282,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   @NonNull private View createViewFrom(final ActionItem action) {
     View actionView;
     if (action.haveTitle()) {
-      TextView textView = (TextView)inflater.inflate(R.layout.action_item, track, false);
+      TextView textView = (TextView)inflater.inflate(R.layout.quick_action_item, track, false);
       textView.setTextColor(textColor);
       textView.setText(String.format(" %s ", action.getTitle()));
       if (action.haveIcon()) {
@@ -300,7 +297,8 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       }
       actionView = textView;
     } else {
-      ImageView imageView = (ImageView)inflater.inflate(R.layout.image_action_item, track, false);
+      ImageView imageView =
+        (ImageView)inflater.inflate(R.layout.quick_action_image_item, track, false);
       imageView.setId(action.getActionId());
       imageView.setImageDrawable(action.getIconDrawable(getContext()));
       actionView = imageView;
@@ -356,20 +354,6 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   }
 
   /**
-   * Get action item by Action's ID
-   *
-   * @param actionId Id of item
-   * @return Action Item with same id
-   */
-  @Nullable public ActionItem getActionItemById(int actionId) {
-    for (ActionItem action : actionItems) {
-      if (action.getActionId() == actionId)
-        return action;
-    }
-    return null;
-  }
-
-  /**
    * remove action item
    *
    * @param action action to remove
@@ -391,6 +375,20 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   }
 
   /**
+   * Get action item by Action's ID
+   *
+   * @param actionId Id of item
+   * @return Action Item with same id
+   */
+  @Nullable public ActionItem getActionItemById(int actionId) {
+    for (ActionItem action : actionItems) {
+      if (action.getActionId() == actionId)
+        return action;
+    }
+    return null;
+  }
+
+  /**
    * Show quickaction popup. Popup is automatically positioned, on top or bottom of anchor view.
    *
    * @param activity contain view to be anchor
@@ -405,7 +403,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
    *
    * @param anchor view to use as anchor of QuickAction's popup
    */
-  public void show(View anchor) {
+  public void show(@NonNull View anchor) {
     if (getContext() == null)
       throw new IllegalStateException("Why context is null? It shouldn't be.");
 
@@ -433,7 +431,7 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     int screenWidth = displaymetrics.widthPixels;
     int screenHeight = displaymetrics.heightPixels;
 
-    // automatically get X coord of popup (top left)
+    // automatically get X coord of quick_action_vertical (top left)
     if ((anchorRect.left+rootWidth) > screenWidth) {
       xPos = anchorRect.left-(rootWidth-anchor.getWidth());
       xPos = (xPos < 0) ? 0 : xPos;
@@ -479,6 +477,27 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   }
 
   /**
+   * Show arrow
+   *
+   * @param whichArrow arrow type resource id
+   * @param requestedX distance from left screen
+   */
+  private void showArrow(@IdRes int whichArrow, int requestedX) {
+    final View showArrow = (whichArrow == R.id.arrow_up) ? arrowUp : arrowDown;
+    final View hideArrow = (whichArrow == R.id.arrow_up) ? arrowDown : arrowUp;
+
+    final int arrowWidth = arrowUp.getMeasuredWidth();
+
+    showArrow.setVisibility(View.VISIBLE);
+
+    ViewGroup.MarginLayoutParams param = (ViewGroup.MarginLayoutParams)showArrow.getLayoutParams();
+
+    param.leftMargin = requestedX-arrowWidth/2;
+
+    hideArrow.setVisibility(View.GONE);
+  }
+
+  /**
    * Set animation style
    *
    * @param screenWidth screen width
@@ -500,27 +519,6 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
       default:
         mWindow.setAnimationStyle(animation.get(onTop));
     }
-  }
-
-  /**
-   * Show arrow
-   *
-   * @param whichArrow arrow type resource id
-   * @param requestedX distance from left screen
-   */
-  private void showArrow(int whichArrow, int requestedX) {
-    final View showArrow = (whichArrow == R.id.arrow_up) ? arrowUp : arrowDown;
-    final View hideArrow = (whichArrow == R.id.arrow_up) ? arrowDown : arrowUp;
-
-    final int arrowWidth = arrowUp.getMeasuredWidth();
-
-    showArrow.setVisibility(View.VISIBLE);
-
-    ViewGroup.MarginLayoutParams param = (ViewGroup.MarginLayoutParams)showArrow.getLayoutParams();
-
-    param.leftMargin = requestedX-arrowWidth/2;
-
-    hideArrow.setVisibility(View.GONE);
   }
 
   /**
