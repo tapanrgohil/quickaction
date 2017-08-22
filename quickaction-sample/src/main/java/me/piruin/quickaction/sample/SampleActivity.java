@@ -77,8 +77,7 @@ public class SampleActivity extends AppCompatActivity {
     //Note this must be called before addActionItem()
 
     //add action items into QuickAction
-    quickAction.addActionItem(nextItem);
-    quickAction.addActionItem(prevItem);
+    quickAction.addActionItem(nextItem, prevItem);
     quickAction.setTextColor(Color.YELLOW);
     quickAction.addActionItem(searchItem);
     quickAction.addActionItem(infoItem);

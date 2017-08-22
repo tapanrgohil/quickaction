@@ -247,6 +247,12 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
     mItemClickListener = listener;
   }
 
+  public void addActionItem(final ActionItem... actions) {
+    for (ActionItem item : actions) {
+      addActionItem(item);
+    }
+  }
+
   /**
    * Add action item
    *
