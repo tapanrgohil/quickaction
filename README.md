@@ -69,19 +69,31 @@ You can get more information at his blog http://www.londatiga.net/it/how-to-crea
 
 My QuickAction have some additional feature more than original
 
-### Set Popup's Color & Text Color
+### Style
 
+#### Background Color
 ```java
   //Popup color
   quickAction.setColorRes(R.color.pink) //set by Color Resource
   quickAction.setColor(Color.WHITE) // or by Color class
+```
 
+#### Text Color
+```java
   //Text color
   quickAction.setTextColorRes(R.color.red)
   quickAction.setTextColor(Color.Black)
 ```
-
 NOTE! setTextColor apply only ActionItem that added afterward.
+
+### Divider
+Control divider visibility and color by [milap tank](https://github.com/milaptank)
+
+```java
+  quickAction.setEnabledDivider(true);
+  quickAction.setDividerColor(Color.WHITE);
+```
+By default, Divider is `enable` for Horizontal and `disable` of Vertical
 
 ### Quick Intent Action
 
@@ -93,6 +105,7 @@ To lazy create list of Activity or Service that match with your Intent
     .setActivityIntent(intent)
     .create();
 ```
+
 
 ## Developer By
 
