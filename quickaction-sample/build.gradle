@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion ANDROID_TARGET_SDK
-  buildToolsVersion ANDROID_BUILD_TOOLS
 
   defaultConfig {
     applicationId "me.piruin.quickaction.sample"

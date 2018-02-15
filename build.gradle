@@ -14,7 +14,7 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.3'
+    classpath 'com.android.tools.build:gradle:3.0.1'
   }
 }
 
@@ -29,8 +29,12 @@ ext {
 
   ANDROID_MIN_SDK = 19
   ANDROID_TARGET_SDK = 25
-  ANDROID_BUILD_TOOLS = "25.0.0"
   ANDROID_SUPPORT_VERSION = "25.3.1"
 
   githubRepo = 'piruin/quickaction'
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '4.5.1'
+  distributionUrl = distributionUrl.replace("bin", "all")
 }
