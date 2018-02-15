@@ -368,14 +368,14 @@ public class QuickAction extends PopupWindows implements OnDismissListener {
   public ActionItem remove(ActionItem action) {
     int index = actionItems.indexOf(action);
     if (index == -1)
-      throw new RuntimeException("Now found action");
+      throw new RuntimeException("Not found action");
 
-    if (orientation == VERTICAL) {
+    if (!enabledDivider) {
       track.removeViewAt(index);
     } else {
       int viewPos = index*2;
       track.removeViewAt(viewPos);
-      track.removeViewAt(viewPos-1); //remove separator
+      track.removeViewAt(index == 0 ? 0 : viewPos - 1); //remove divider
     }
     return actionItems.remove(index);
   }
