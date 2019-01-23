@@ -1,8 +1,13 @@
 # Quick Action 
 [![License](https://img.shields.io/badge/License-Apache%202.0-red.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-[![Build Status](https://travis-ci.org/piruin/quickaction.svg?branch=master)](https://travis-ci.org/piruin/quickaction) 
-[![Download](https://api.bintray.com/packages/blazei/maven/QuickAction/images/download.svg)](https://bintray.com/blazei/maven/QuickAction/_latestVersion)
-[![Download](https://jitpack.io/v/piruin/quickaction.svg)](https://jitpack.io/#piruin/quickaction)
+[![Download](https://jitpack.io/v/tapanrgohil/quickaction.svg)](https://jitpack.io/#tapanrgohil/quickaction)
+
+
+
+
+## Orignal fork from:
+https://github.com/piruin/quickaction
+
 
 Quick Action is a small android library for easy create Tooltips with some action or
 just as decoration. folk from [NewQuickAction3D] by [Lorensius W. L. T].
@@ -78,9 +83,29 @@ My QuickAction have some additional feature more than original
   quickAction.setColor(Color.WHITE) // or by Color class
 ```
 
+#### Set Title text 
+```java
+  //Title text 
+  quickAction.setTitle("Demo title") //set by String
+```
+
+#### Title text Color
+```java
+  //Title text Color
+  quickAction.setTitleTextColor(R.color.pink) //set by Color Resource
+  quickAction.setTitleTextColor(Color.WHITE) // or by Color class
+```
+
+#### Title background Color
+```java
+  //Popup color
+  quickAction.setTitleBackgroundColor(R.color.pink) //set by Color Resource
+  quickAction.setTitleBackgroundColor(Color.WHITE) // or by Color class
+```
+
 #### Text Color
 ```java
-  //Text color
+  //Title background Color
   quickAction.setTextColorRes(R.color.red)
   quickAction.setTextColor(Color.Black)
 ```
