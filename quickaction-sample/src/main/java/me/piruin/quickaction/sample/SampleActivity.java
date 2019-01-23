@@ -24,6 +24,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.piruin.quickaction.ActionItem;
@@ -42,7 +43,8 @@ public class SampleActivity extends AppCompatActivity {
   private QuickAction quickAction;
   private QuickAction quickIntent;
 
-  @Override public void onCreate(Bundle savedInstanceState) {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_sample);
     ButterKnife.bind(this);
@@ -83,13 +85,18 @@ public class SampleActivity extends AppCompatActivity {
     quickAction.addActionItem(infoItem);
     quickAction.addActionItem(eraseItem);
     quickAction.addActionItem(okItem);
+    quickAction.setTitle("Demo title");
+    quickAction.setTitleTextColor(Color.GREEN);
+    quickAction.setTitleBackgroundColor(Color.YELLOW);
+    quickAction.setArrowColor(Color.BLUE);
 
     //Set listener for action item clicked
     quickAction.setOnActionItemClickListener(new QuickAction.OnActionItemClickListener() {
-      @Override public void onItemClick(ActionItem item) {
+      @Override
+      public void onItemClick(ActionItem item) {
         //here we can filter which action item was clicked with pos or actionId parameter
         String title = item.getTitle();
-        Toast.makeText(SampleActivity.this, title+" selected", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SampleActivity.this, title + " selected", Toast.LENGTH_SHORT).show();
         if (!item.isSticky()) quickAction.remove(item);
       }
     });
@@ -98,7 +105,8 @@ public class SampleActivity extends AppCompatActivity {
     // was dismissed
     //by clicking the area outside the dialog.
     quickAction.setOnDismissListener(new QuickAction.OnDismissListener() {
-      @Override public void onDismiss() {
+      @Override
+      public void onDismiss() {
         Toast.makeText(SampleActivity.this, "Dismissed", Toast.LENGTH_SHORT).show();
       }
     });
@@ -115,27 +123,32 @@ public class SampleActivity extends AppCompatActivity {
     quickIntent.setAnimStyle(QuickAction.Animation.REFLECT);
   }
 
-  @OnClick( { R.id.button1, R.id.button2 }) void onShow(View view) {
+  @OnClick({R.id.button1, R.id.button2})
+  void onShow(View view) {
     quickAction.show(view);
   }
 
-  @OnClick(R.id.intent) void onShowQuickIntent(View view) {
+  @OnClick(R.id.intent)
+  void onShowQuickIntent(View view) {
+    quickIntent.setTitle("DEMO TITLE");
     quickIntent.show(view);
   }
 
   boolean red = false;
 
-  @OnClick(R.id.replace) void onReplaceActionItem(View view) {
+  @OnClick(R.id.replace)
+  void onReplaceActionItem(View view) {
     quickAction.remove(ID_ERASE);
     quickAction.addActionItem(4,
-        new ActionItem(ID_ERASE, "Erase", red ? R.drawable.ic_clear : R.drawable.ic_clear_red));
+      new ActionItem(ID_ERASE, "Erase", red ? R.drawable.ic_clear : R.drawable.ic_clear_red));
     red = !red;
     Toast.makeText(SampleActivity.this, "Replaced", Toast.LENGTH_SHORT).show();
   }
 
   boolean removed = false;
 
-  @OnClick(R.id.remove) void onRemoveItem(View view) {
+  @OnClick(R.id.remove)
+  void onRemoveItem(View view) {
     if (removed) return;
 
     quickAction.remove(quickAction.getActionItemById(ID_OK));
